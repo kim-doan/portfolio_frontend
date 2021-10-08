@@ -75,7 +75,7 @@ class _LoginFormState extends State<LoginForm> {
                   border: InputBorder.none,
                   hintText: "비밀번호",
                 ),
-                onSubmitted: (value) {
+                onSubmitted: (value) async {
                   loginBtnPressed();
                 },
               ),
