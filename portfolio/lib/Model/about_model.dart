@@ -14,20 +14,21 @@ class AboutModel {
       this.careerList = const [],
       this.projectList = const []});
 
-  AboutModel copyWith(
-      {String name = "",
-      String email = "",
-      String phoneNo = "",
-      int career = 0,
-      List<AboutDetail> careerList = const [],
-      List<AboutDetail> projectList = const []}) {
+  AboutModel copyWith({
+    String name = "",
+    String email = "",
+    String phoneNo = "",
+    int career = 0,
+    List<AboutDetail> careerList = const [],
+    List<AboutDetail> projectList = const [],
+  }) {
     return AboutModel(
-        name: this.name = "",
-        email: this.email = "",
-        phoneNo: this.phoneNo = "",
-        career: this.career = 0,
-        careerList: this.careerList = const [],
-        projectList: this.projectList = const []);
+        name: this.name,
+        email: this.email,
+        phoneNo: this.phoneNo,
+        career: this.career,
+        careerList: this.careerList,
+        projectList: this.projectList);
   }
 
   AboutModel.fromJson(Map<String, dynamic> json) {
@@ -65,20 +66,22 @@ class AboutDetail {
   DateTime? startDate;
   DateTime? endDate;
   String contents = "";
+  bool enabled = true;
 
-  AboutDetail({this.startDate, this.endDate, this.contents = ""});
+  AboutDetail({this.startDate, this.endDate, this.contents = "", this.enabled = true});
 
   AboutDetail.fromJson(Map<String, dynamic> json) {
     startDate = DateTime.parse(json['startDate']);
-    endDate = DateTime.parse(json['endDate']);
+    endDate = json['endDate'] == null ? null : DateTime.parse(json['endDate']);
     contents = json['contents'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['startDate'] = this.startDate;
-    data['endDate'] = this.endDate;
+    data['startDate'] = this.startDate!.toIso8601String();
+    data['endDate'] = this.endDate == null ? "" : this.endDate!.toIso8601String();
     data['contents'] = this.contents;
+    data['enabled'] = this.enabled;
     return data;
   }
 }

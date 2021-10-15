@@ -40,6 +40,7 @@ dependencies:
   get_storage: ^2.0.3
   syncfusion_flutter_datagrid: ^19.2.59-beta
   syncfusion_localizations: ^19.3.43
+  flutter_datetime_picker: ^1.5.1
   device_info:
 
   # The following adds the Cupertino Icons font to your application.

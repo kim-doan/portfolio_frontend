@@ -142,7 +142,9 @@ class _AboutScreenState extends State<AboutScreen> {
                               new Text(
                                   DateFormat("yyyy-MM-dd").format(content.startDate!) +
                                       " ~ " +
-                                      DateFormat("yyyy-MM-dd").format(content.endDate!) +
+                                      ((content.endDate == null)
+                                          ? "      현재       "
+                                          : DateFormat("yyyy-MM-dd").format(content.endDate!)) +
                                       " | ",
                                   style: TextStyle(fontSize: size.width > 1000 ? 20.sp : 14, color: Colors.grey[400])),
                               SizedBox(height: 15),
@@ -151,6 +153,7 @@ class _AboutScreenState extends State<AboutScreen> {
                       .toList()),
             new Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: contents
                     .map((content) => Column(
                           children: [

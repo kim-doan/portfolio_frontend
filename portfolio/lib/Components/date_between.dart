@@ -9,6 +9,8 @@ class DateBetween extends StatelessWidget {
   final Function()? tap2;
   final String? initialValue;
   final String? initialValue2;
+  final Function(String value)? onChanged;
+  final Function(String value)? onChanged2;
   const DateBetween(
       {Key? key,
       required this.title,
@@ -17,7 +19,9 @@ class DateBetween extends StatelessWidget {
       this.hintText1,
       this.hintText2,
       this.initialValue,
-      this.initialValue2})
+      this.initialValue2,
+      this.onChanged,
+      this.onChanged2})
       : super(key: key);
 
   @override
@@ -40,6 +44,7 @@ class DateBetween extends StatelessWidget {
             ),
             keyboardType: TextInputType.number,
             onTap: tap,
+            onChanged: onChanged,
           ),
         ),
         Text(" ~ ", style: TextStyle(color: Colors.white)),
@@ -57,6 +62,7 @@ class DateBetween extends StatelessWidget {
             ),
             keyboardType: TextInputType.number,
             onTap: tap2,
+            onChanged: onChanged2,
           ),
         ),
       ],
