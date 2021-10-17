@@ -28,6 +28,13 @@ class AboutController extends GetxController {
     return result;
   }
 
+  setPrimaryAbout(String name, String email, String phoneNo, String career) {
+    about.value.name = name;
+    about.value.email = email;
+    about.value.phoneNo = phoneNo;
+    about.value.career = int.tryParse(career) ?? 0;
+  }
+
   addAboutDetail(String type) {
     AboutModel tempAbout = about.value.copyWith();
 

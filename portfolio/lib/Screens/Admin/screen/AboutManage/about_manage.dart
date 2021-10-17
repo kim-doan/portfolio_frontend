@@ -121,7 +121,13 @@ class _AboutManageState extends State<AboutManage> {
                     enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
                     fillColor: Colors.white,
                     focusColor: Colors.white,
-                  ))),
+                  ),
+                  onChanged: (value) {
+                    aboutController.setPrimaryAbout(nameController.text, emailController.text, phoneController.text, careerController.text);
+                  },
+                  )
+                  ),
+                  
         ],
       ),
     );

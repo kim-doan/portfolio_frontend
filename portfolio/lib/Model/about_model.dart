@@ -11,17 +11,21 @@ class AboutModel {
       this.email = "",
       this.phoneNo = "",
       this.career = 0,
-      this.careerList = const [],
-      this.projectList = const []});
+      List<AboutDetail>? careerList,
+      List<AboutDetail>? projectList})
+      : careerList = careerList ?? [],
+      projectList = projectList ?? []
+      ;
 
   AboutModel copyWith({
     String name = "",
     String email = "",
     String phoneNo = "",
     int career = 0,
-    List<AboutDetail> careerList = const [],
-    List<AboutDetail> projectList = const [],
-  }) {
+    List<AboutDetail>? careerList,
+    List<AboutDetail>? projectList,
+  })
+   {
     return AboutModel(
         name: this.name,
         email: this.email,
@@ -36,14 +40,14 @@ class AboutModel {
     email = json['email'];
     phoneNo = json['phoneNo'];
     career = json['career'];
+    careerList = new List<AboutDetail>.from([]);
     if (json['careerList'] != null) {
-      careerList = new List<AboutDetail>.from([]);
       json['careerList'].forEach((v) {
         careerList.add(new AboutDetail.fromJson(v));
       });
     }
+    projectList = new List<AboutDetail>.from([]);
     if (json['projectList'] != null) {
-      projectList = new List<AboutDetail>.from([]);
       json['projectList'].forEach((v) {
         projectList.add(new AboutDetail.fromJson(v));
       });

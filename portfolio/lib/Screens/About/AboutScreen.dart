@@ -77,7 +77,7 @@ class _AboutScreenState extends State<AboutScreen> {
                         SizedBox(height: 20),
                         buildRow("핸드폰", aboutController.about.value.phoneNo),
                         SizedBox(height: 20),
-                        buildRow("총 경력", aboutController.about.value.career.toString()),
+                        buildRow("총 경력", (aboutController.about.value.career / 12).toStringAsFixed(0) + " 년 " + (aboutController.about.value.career % 12).toStringAsFixed(0)+ " 개월"),
                         SizedBox(height: 20),
                         buildDynamicRow("경력사항", aboutController.about.value.careerList),
                         SizedBox(height: 20),
