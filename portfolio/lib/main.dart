@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:portfolio/Controller/user_controller.dart';
 import 'package:portfolio/Screens/Main/main_screen.dart';
 import 'package:portfolio/constants.dart';
+import 'package:syncfusion_localizations/syncfusion_localizations.dart';
 
 void main() async {
   await GetStorage.init();
@@ -51,10 +52,15 @@ class _MyAppState extends State<MyApp> {
           fontFamily: 'AppleSdGothicNeo',
         ),
         home: MainScreen(),
-        localizationsDelegates: [GlobalMaterialLocalizations.delegate, GlobalWidgetsLocalizations.delegate],
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          SfGlobalLocalizations.delegate
+        ],
         supportedLocales: [
           const Locale('ko', 'KR'),
         ],
+        locale: const Locale('ko'),
       ),
     );
   }

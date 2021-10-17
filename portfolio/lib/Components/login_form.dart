@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:portfolio/Components/register_form.dart';
 import 'package:portfolio/Controller/loading_controller.dart';
 import 'package:portfolio/Controller/user_controller.dart';
-import 'package:portfolio/Screens/Main/main_screen.dart';
 import 'package:portfolio/constants.dart';
 
 class LoginForm extends StatefulWidget {
@@ -76,6 +75,9 @@ class _LoginFormState extends State<LoginForm> {
                   border: InputBorder.none,
                   hintText: "비밀번호",
                 ),
+                onSubmitted: (value) async {
+                  loginBtnPressed();
+                },
               ),
             ),
           ),
@@ -85,14 +87,14 @@ class _LoginFormState extends State<LoginForm> {
             children: [
               Text(
                 "아직 계정이 없으신가요? ",
-                style: TextStyle(fontSize: 20.sp),
+                style: TextStyle(fontSize: 15),
               ),
               MouseRegion(
                 cursor: SystemMouseCursors.click,
                 child: GestureDetector(
                   child: Text(
                     "계정생성",
-                    style: TextStyle(color: Colors.blue[800], fontSize: 20.sp),
+                    style: TextStyle(color: Colors.blue[800], fontSize: 15),
                   ),
                   onTap: () async {
                     Navigator.pop(context);
@@ -114,35 +116,37 @@ class _LoginFormState extends State<LoginForm> {
                     backgroundColor: Colors.blue[800],
                     primary: Colors.white),
                 child: Text("로그인"),
-                onPressed: () async {
-                  await userController.doLogin({"userId": idController.text, "userPassword": pwController.text});
-
-                  var loginSession = userController.loginSession.value;
-
-                  if (loginSession.success ?? false) {
-                    await userController.validToken(loginSession.token!);
-                    Navigator.pop(context);
-                    Fluttertoast.showToast(
-                        msg: userController.profile.value.username + " 님 환영합니다.",
-                        backgroundColor: Colors.black,
-                        webPosition: "center",
-                        webBgColor: "#21a366",
-                        timeInSecForIosWeb: 3,
-                        textColor: Colors.white);
-                  } else {
-                    Fluttertoast.showToast(
-                        msg: userController.loginSession.value.msg ?? "",
-                        backgroundColor: Colors.black,
-                        webPosition: "center",
-                        webBgColor: "#ea4335",
-                        timeInSecForIosWeb: 3,
-                        textColor: Colors.white);
-                  }
-                },
+                onPressed: loginBtnPressed,
               )),
         ],
       ),
     );
+  }
+
+  void loginBtnPressed() async {
+    await userController.doLogin({"userId": idController.text, "userPassword": pwController.text});
+
+    var loginSession = userController.loginSession.value;
+
+    if (loginSession.success ?? false) {
+      await userController.validToken(loginSession.token!);
+      Navigator.pop(context);
+      Fluttertoast.showToast(
+          msg: userController.profile.value.username + " 님 환영합니다.",
+          backgroundColor: Colors.black,
+          webPosition: "center",
+          webBgColor: "#21a366",
+          timeInSecForIosWeb: 3,
+          textColor: Colors.white);
+    } else {
+      Fluttertoast.showToast(
+          msg: userController.loginSession.value.msg ?? "",
+          backgroundColor: Colors.black,
+          webPosition: "center",
+          webBgColor: "#ea4335",
+          timeInSecForIosWeb: 3,
+          textColor: Colors.white);
+    }
   }
 
   Future<String?> registerDialog() async {

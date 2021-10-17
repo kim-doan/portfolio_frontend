@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/Components/bottom_bar.dart';
 import 'package:portfolio/Components/custom_tab.dart';
@@ -7,11 +6,11 @@ import 'package:portfolio/Components/custom_tab_bar.dart';
 import 'package:portfolio/Components/login_form.dart';
 import 'package:portfolio/Controller/user_controller.dart';
 import 'package:portfolio/Screens/About/AboutScreen.dart';
+import 'package:portfolio/Screens/Admin/admin_screen.dart';
 import 'package:portfolio/Screens/Home/home_screen.dart';
 import 'package:portfolio/Utils/content_view.dart';
 import 'package:portfolio/Utils/tab_controller_handler.dart';
 import 'package:portfolio/Utils/view_wrapper.dart';
-import 'package:portfolio/constants.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class MainScreen extends StatefulWidget {
@@ -172,6 +171,7 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
                         "[관리자 페이지]",
                         style: TextStyle(color: Colors.red),
                       ),
+                      onTap: () => Get.to(() => AdminScreen()),
                     ),
                   ),
                 )
