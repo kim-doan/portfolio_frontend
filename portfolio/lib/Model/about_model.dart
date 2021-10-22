@@ -5,17 +5,19 @@ class AboutModel {
   int career = 0;
   List<AboutDetail> careerList = [];
   List<AboutDetail> projectList = [];
+  List<TechStack> stackList = [];
 
-  AboutModel(
-      {this.name = "",
-      this.email = "",
-      this.phoneNo = "",
-      this.career = 0,
-      List<AboutDetail>? careerList,
-      List<AboutDetail>? projectList})
-      : careerList = careerList ?? [],
-      projectList = projectList ?? []
-      ;
+  AboutModel({
+    this.name = "",
+    this.email = "",
+    this.phoneNo = "",
+    this.career = 0,
+    List<AboutDetail>? careerList,
+    List<AboutDetail>? projectList,
+    List<TechStack>? stackList,
+  })  : careerList = careerList ?? [],
+        projectList = projectList ?? [],
+        stackList = stackList ?? [];
 
   AboutModel copyWith({
     String name = "",
@@ -24,15 +26,16 @@ class AboutModel {
     int career = 0,
     List<AboutDetail>? careerList,
     List<AboutDetail>? projectList,
-  })
-   {
+    List<TechStack>? stackList,
+  }) {
     return AboutModel(
         name: this.name,
         email: this.email,
         phoneNo: this.phoneNo,
         career: this.career,
         careerList: this.careerList,
-        projectList: this.projectList);
+        projectList: this.projectList,
+        stackList: this.stackList);
   }
 
   AboutModel.fromJson(Map<String, dynamic> json) {
@@ -52,6 +55,12 @@ class AboutModel {
         projectList.add(new AboutDetail.fromJson(v));
       });
     }
+    stackList = new List<TechStack>.from([]);
+    if (json['stackList'] != null) {
+      json['stackList'].forEach((v) {
+        stackList.add(new TechStack.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -62,6 +71,7 @@ class AboutModel {
     data['career'] = this.career;
     data['careerList'] = this.careerList.map((v) => v.toJson()).toList();
     data['projectList'] = this.projectList.map((v) => v.toJson()).toList();
+    data['stackList'] = this.stackList.map((v) => v.toJson()).toList();
     return data;
   }
 }
@@ -86,6 +96,34 @@ class AboutDetail {
     data['endDate'] = this.endDate == null ? "" : this.endDate!.toIso8601String();
     data['contents'] = this.contents;
     data['enabled'] = this.enabled;
+    return data;
+  }
+}
+
+class TechStack {
+  String? stackCtg;
+  String stackName = "";
+  String? icon;
+  int stackGuage = 0;
+  bool enabled = true;
+
+  TechStack({this.stackCtg, this.stackName = "", this.icon, this.stackGuage = 0, this.enabled = true});
+
+  TechStack.fromJson(Map<String, dynamic> json) {
+    stackCtg = json['stackCtg'];
+    stackName = json['stackName'];
+    stackGuage = json['stackGuage'] ?? 0;
+    icon = json['icon'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['stackCtg'] = this.stackCtg;
+    data['stackName'] = this.stackName;
+    data['stackGuage'] = this.stackGuage;
+    data['icon'] = this.icon;
+    data['enabled'] = this.enabled;
+
     return data;
   }
 }

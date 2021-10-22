@@ -1,10 +1,13 @@
-import 'dart:math';
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:portfolio/Components/date_between.dart';
 import 'package:portfolio/Controller/about_controller.dart';
@@ -25,6 +28,8 @@ class _AboutManageState extends State<AboutManage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController careerController = TextEditingController();
+
+  PickedFile? _image;
 
   @override
   void initState() {
@@ -53,6 +58,8 @@ class _AboutManageState extends State<AboutManage> {
             buildDynamicRow("경력사항", aboutController.about.value.careerList),
             SizedBox(height: 40),
             buildDynamicRow("프로젝트", aboutController.about.value.projectList),
+            SizedBox(height: 40),
+            buildStackRow("사용기술", aboutController.about.value.stackList),
             SizedBox(height: 40),
             Center(
               child: Container(
@@ -112,22 +119,179 @@ class _AboutManageState extends State<AboutManage> {
           SizedBox(width: 20.w),
           Expanded(
               child: TextFormField(
-                  controller: controller,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                    filled: true,
-                    hintText: title + " 을/를 입력해주세요.",
-                    border: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue)),
-                    enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-                    fillColor: Colors.white,
-                    focusColor: Colors.white,
-                  ),
-                  onChanged: (value) {
-                    aboutController.setPrimaryAbout(nameController.text, emailController.text, phoneController.text, careerController.text);
-                  },
-                  )
-                  ),
-                  
+            controller: controller,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              filled: true,
+              hintText: title + " 을/를 입력해주세요.",
+              border: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue)),
+              enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+              fillColor: Colors.white,
+              focusColor: Colors.white,
+            ),
+            onChanged: (value) {
+              aboutController.setPrimaryAbout(
+                  nameController.text, emailController.text, phoneController.text, careerController.text);
+            },
+          )),
+        ],
+      ),
+    );
+  }
+
+  Widget buildStackRow(String title, List<TechStack> contents) {
+    return Container(
+      width: 800,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 100,
+            padding: EdgeInsets.only(bottom: 8, left: 2),
+            child: Text(
+              title,
+              style: TextStyle(fontSize: 20, color: Color(0xFF2196F3)),
+            ),
+          ),
+          SizedBox(width: 20.w),
+          Expanded(
+            child: Column(
+              children: [
+                Column(
+                    children: contents
+                        .asMap()
+                        .entries
+                        .map(
+                          (entry) => (entry.value.enabled == false)
+                              ? new Container()
+                              : Column(key: Key(entry.key.toString()), children: [
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        flex: 1,
+                                        child: Container(
+                                            width: 50,
+                                            height: 50,
+                                            color: Colors.white,
+                                            child: Center(
+                                                child: (entry.value.icon == null || entry.value.icon == "")
+                                                    ? Icon(Icons.image_not_supported)
+                                                    : Image.memory(Base64Decoder().convert(entry.value.icon!)))),
+                                      ),
+                                      SizedBox(width: 20.w),
+                                      Expanded(
+                                        flex: 3,
+                                        child: TextFormField(
+                                          initialValue: entry.value.stackCtg,
+                                          keyboardType: TextInputType.text,
+                                          decoration: InputDecoration(
+                                            filled: true,
+                                            hintText: "카테고리",
+                                            border: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue)),
+                                            enabledBorder:
+                                                OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                                            fillColor: Colors.white,
+                                            focusColor: Colors.white,
+                                          ),
+                                          onChanged: (value) {
+                                            aboutController.stackCtgController(entry.key, value);
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(width: 10.w),
+                                      Expanded(
+                                        flex: 4,
+                                        child: TextFormField(
+                                          initialValue: entry.value.stackName,
+                                          keyboardType: TextInputType.text,
+                                          decoration: InputDecoration(
+                                            filled: true,
+                                            hintText: title,
+                                            border: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue)),
+                                            enabledBorder:
+                                                OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                                            fillColor: Colors.white,
+                                            focusColor: Colors.white,
+                                          ),
+                                          onChanged: (value) {
+                                            aboutController.stackNameController(entry.key, value);
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(width: 10.w),
+                                      Expanded(
+                                        flex: 2,
+                                        child: TextFormField(
+                                          initialValue: entry.value.stackGuage.toString(),
+                                          keyboardType: TextInputType.text,
+                                          decoration: InputDecoration(
+                                            filled: true,
+                                            hintText: "숙련도(%)",
+                                            border: OutlineInputBorder(borderSide: BorderSide(color: Colors.blue)),
+                                            enabledBorder:
+                                                OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+                                            fillColor: Colors.white,
+                                            focusColor: Colors.white,
+                                          ),
+                                          onChanged: (value) {
+                                            aboutController.stackGuageController(entry.key, value);
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(width: 10.w),
+                                      Container(
+                                          width: 50,
+                                          height: 50,
+                                          color: Colors.red[400],
+                                          child: IconButton(
+                                              onPressed: () {
+                                                aboutController.delStackList(entry.key);
+                                              },
+                                              icon: Icon(
+                                                Icons.delete,
+                                                color: Colors.white,
+                                                size: 24,
+                                              ))),
+                                      SizedBox(width: 5.w),
+                                      Container(
+                                          width: 50,
+                                          height: 50,
+                                          color: Colors.green[400],
+                                          child: IconButton(
+                                              onPressed: () async {
+                                                FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+                                                if (result == null) return;
+
+                                                Uint8List? bytes = result.files.single.bytes;
+
+                                                aboutController.stackIconController(entry.key, base64Encode(bytes!));
+                                              },
+                                              icon: Icon(
+                                                Icons.file_upload,
+                                                color: Colors.white,
+                                              )))
+                                    ],
+                                  ),
+                                  SizedBox(height: 10),
+                                ]),
+                        )
+                        .toList()),
+                Container(
+                    width: 800,
+                    height: 50,
+                    color: Color(0XFF2196F3),
+                    child: IconButton(
+                        onPressed: () {
+                          aboutController.addTechStack();
+                        },
+                        icon: Icon(
+                          Icons.add,
+                          color: Colors.white,
+                        )))
+              ],
+            ),
+          )
         ],
       ),
     );
@@ -211,6 +375,8 @@ class _AboutManageState extends State<AboutManage> {
                                     ),
                                     SizedBox(width: 10.w),
                                     Container(
+                                        width: 50,
+                                        height: 50,
                                         color: Colors.red[400],
                                         child: IconButton(
                                             onPressed: () {

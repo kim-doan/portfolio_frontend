@@ -1,5 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_animation_progress_bar/flutter_animation_progress_bar.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:portfolio/Controller/about_controller.dart';
@@ -31,7 +33,7 @@ class _AboutScreenState extends State<AboutScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (size.width > 1300)
+          if (size.width > 1692)
             Container(
               alignment: Alignment.center,
               // color: Colors.white,
@@ -57,14 +59,13 @@ class _AboutScreenState extends State<AboutScreen> {
               ),
             ),
           Container(
-            width: size.width > 1315 ? size.width * 0.5 : size.width,
+            width: size.width,
             height: size.height,
             child: Padding(
               padding: size.width > 710
                   ? const EdgeInsets.only(top: 100, bottom: 100, left: 50, right: 50)
                   : const EdgeInsets.all(1),
               child: Container(
-                // color: Colors.white,
                 alignment: Alignment.center,
                 child: SingleChildScrollView(
                   child: Obx(() {
@@ -77,12 +78,18 @@ class _AboutScreenState extends State<AboutScreen> {
                         SizedBox(height: 20),
                         buildRow("핸드폰", aboutController.about.value.phoneNo),
                         SizedBox(height: 20),
-                        buildRow("총 경력", (aboutController.about.value.career / 12).toStringAsFixed(0) + " 년 " + (aboutController.about.value.career % 12).toStringAsFixed(0)+ " 개월"),
+                        buildRow(
+                            "총 경력",
+                            (aboutController.about.value.career / 12).toStringAsFixed(0) +
+                                " 년 " +
+                                (aboutController.about.value.career % 12).toStringAsFixed(0) +
+                                " 개월"),
                         SizedBox(height: 20),
                         buildDynamicRow("경력사항", aboutController.about.value.careerList),
                         SizedBox(height: 20),
                         buildDynamicRow("주요프로젝트", aboutController.about.value.projectList),
                         SizedBox(height: 20),
+                        buildStackRow("주요스킬", aboutController.about.value.stackList),
                       ],
                     );
                   }),
@@ -106,11 +113,11 @@ class _AboutScreenState extends State<AboutScreen> {
           decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Colors.grey.shade500))),
           child: Text(
             title,
-            style: TextStyle(fontSize: size.width > 1000 ? 20.sp : 14, color: Color(0xFF2278bd)),
+            style: TextStyle(fontSize: size.width > 1000 ? 20 : 14, color: Color(0xFF2278bd)),
           ),
         ),
-        SizedBox(width: 40.w),
-        Text(content, style: TextStyle(fontSize: size.width > 1000 ? 20.sp : 14, color: Colors.white)),
+        SizedBox(width: 40),
+        Text(content, style: TextStyle(fontSize: size.width > 1000 ? 20 : 14, color: Colors.white)),
       ],
     );
   }
@@ -127,10 +134,10 @@ class _AboutScreenState extends State<AboutScreen> {
           decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Colors.grey.shade500))),
           child: Text(
             title,
-            style: TextStyle(fontSize: size.width > 1000 ? 20.sp : 14, color: Color(0xFF2278bd)),
+            style: TextStyle(fontSize: size.width > 1000 ? 20 : 14, color: Color(0xFF2278bd)),
           ),
         ),
-        SizedBox(width: 40.w),
+        SizedBox(width: 40),
         Row(
           children: [
             if (size.width > 500)
@@ -143,10 +150,10 @@ class _AboutScreenState extends State<AboutScreen> {
                                   DateFormat("yyyy-MM-dd").format(content.startDate!) +
                                       " ~ " +
                                       ((content.endDate == null)
-                                          ? "      현재       "
+                                          ? "현재             "
                                           : DateFormat("yyyy-MM-dd").format(content.endDate!)) +
                                       " | ",
-                                  style: TextStyle(fontSize: size.width > 1000 ? 20.sp : 14, color: Colors.grey[400])),
+                                  style: TextStyle(fontSize: size.width > 1000 ? 20 : 14, color: Colors.grey[400])),
                               SizedBox(height: 15),
                             ],
                           ))
@@ -158,7 +165,7 @@ class _AboutScreenState extends State<AboutScreen> {
                     .map((content) => Column(
                           children: [
                             new Text(content.contents,
-                                style: TextStyle(fontSize: size.width > 1000 ? 20.sp : 14, color: Colors.white)),
+                                style: TextStyle(fontSize: size.width > 1000 ? 20 : 14, color: Colors.white)),
                             SizedBox(height: 15),
                           ],
                         ))
@@ -166,6 +173,55 @@ class _AboutScreenState extends State<AboutScreen> {
           ],
         )
         // Text(content, style: TextStyle(fontSize: 16, color: Colors.white)),
+      ],
+    );
+  }
+
+  Widget buildStackRow(String title, List<TechStack> stackList) {
+    Size size = MediaQuery.of(context).size;
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: size.width > 715 ? 110 : 80,
+          padding: EdgeInsets.only(bottom: 8, left: 2),
+          decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Colors.grey.shade500))),
+          child: Text(
+            title,
+            style: TextStyle(fontSize: size.width > 1000 ? 20 : 14, color: Color(0xFF2278bd)),
+          ),
+        ),
+        SizedBox(width: 40),
+        Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: stackList
+                .map((stack) => Row(
+                      children: [
+                        Container(
+                          width: 30,
+                          height: 30,
+                          child: (stack.icon == null || stack.icon == "")
+                              ? new Container()
+                              : Image.memory(Base64Decoder().convert(stack.icon!)),
+                        ),
+                        Text(
+                          stack.stackName,
+                          style: TextStyle(fontSize: size.width > 1000 ? 20 : 14, color: Colors.white),
+                        ),
+                        SizedBox(width: 30),
+                        Container(
+                          width: 100,
+                          height: 15,
+                          child: FAProgressBar(
+                            currentValue: stack.stackGuage,
+                            backgroundColor: Color(0XFF2278bd).withOpacity(0.4),
+                            progressColor: Color(0XFF2278bd),
+                            animatedDuration: Duration(milliseconds: 2000),
+                          ),
+                        ),
+                      ],
+                    ))
+                .toList()),
       ],
     );
   }

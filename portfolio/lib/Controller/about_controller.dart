@@ -22,6 +22,7 @@ class AboutController extends GetxController {
 
     paramAbout.careerList = paramAbout.careerList.where((element) => element.enabled == true).toList();
     paramAbout.projectList = paramAbout.projectList.where((element) => element.enabled == true).toList();
+    paramAbout.stackList = paramAbout.stackList.where((element) => element.enabled == true).toList();
 
     var result = await service.setAboutInfo(paramAbout);
 
@@ -50,6 +51,14 @@ class AboutController extends GetxController {
     about.value = tempAbout;
   }
 
+  addTechStack() {
+    AboutModel tempAbout = about.value.copyWith();
+
+    tempAbout.stackList.add(new TechStack());
+
+    about.value = tempAbout;
+  }
+
   delAboutDetail(String type, int index) {
     AboutModel tempAbout = about.value.copyWith();
 
@@ -61,6 +70,14 @@ class AboutController extends GetxController {
         tempAbout.projectList[index].enabled = false;
         break;
     }
+
+    about.value = tempAbout;
+  }
+
+  delStackList(int index) {
+    AboutModel tempAbout = about.value.copyWith();
+
+    tempAbout.stackList[index].enabled = false;
 
     about.value = tempAbout;
   }
@@ -106,6 +123,38 @@ class AboutController extends GetxController {
         tempAbout.projectList[index].contents = value;
         break;
     }
+
+    about.value = tempAbout;
+  }
+
+  stackCtgController(int index, String value) {
+    AboutModel tempAbout = about.value.copyWith();
+
+    tempAbout.stackList[index].stackCtg = value;
+
+    about.value = tempAbout;
+  }
+
+  stackNameController(int index, String value) {
+    AboutModel tempAbout = about.value.copyWith();
+
+    tempAbout.stackList[index].stackName = value;
+
+    about.value = tempAbout;
+  }
+
+  stackGuageController(int index, String value) {
+    AboutModel tempAbout = about.value.copyWith();
+
+    tempAbout.stackList[index].stackGuage = int.tryParse(value) ?? 0;
+
+    about.value = tempAbout;
+  }
+
+  stackIconController(int index, String value) {
+    AboutModel tempAbout = about.value.copyWith();
+
+    tempAbout.stackList[index].icon = value;
 
     about.value = tempAbout;
   }

@@ -5,9 +5,10 @@ import 'package:portfolio/Components/custom_tab.dart';
 import 'package:portfolio/Components/custom_tab_bar.dart';
 import 'package:portfolio/Components/login_form.dart';
 import 'package:portfolio/Controller/user_controller.dart';
-import 'package:portfolio/Screens/About/AboutScreen.dart';
+import 'package:portfolio/Screens/About/about_screen.dart';
 import 'package:portfolio/Screens/Admin/admin_screen.dart';
 import 'package:portfolio/Screens/Home/home_screen.dart';
+import 'package:portfolio/Screens/Projects/projects_screen.dart';
 import 'package:portfolio/Utils/content_view.dart';
 import 'package:portfolio/Utils/tab_controller_handler.dart';
 import 'package:portfolio/Utils/view_wrapper.dart';
@@ -48,7 +49,7 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
         tab: CustomTab(
           title: 'Projects',
         ),
-        content: new Container()),
+        content: ProejctsScreen()),
     ContentView(
         tab: CustomTab(
           title: 'Contact',
