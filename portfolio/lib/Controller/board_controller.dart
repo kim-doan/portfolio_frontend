@@ -7,7 +7,7 @@ class BoardController extends GetxController {
   var boardPosts = List<BoardModel>.from([]).obs;
 
   var page = 0.obs;
-  var size = 10.obs;
+  var size = 12.obs;
 
   BoardService service = BoardService();
 
@@ -16,5 +16,14 @@ class BoardController extends GetxController {
     var result = await service.getBoardPage(Pageable(page: page.value, size: size.value));
 
     boardPosts.value = result;
+  }
+
+  /// 게시글 다음페이지
+  nextBoardPage() async {
+    page.value = page.value + 1;
+
+    var result = await service.getBoardPage(Pageable(page: page.value, size: size.value));
+
+    boardPosts.addAll(result);
   }
 }

@@ -15,10 +15,18 @@ class ProejctsScreen extends StatefulWidget {
 class _ProejctsScreenState extends State<ProejctsScreen> {
   var boardController = Get.put(BoardController());
 
+  ScrollController scrollController = new ScrollController();
+
   @override
   void initState() {
     super.initState();
     boardController.getBoardPage();
+
+    scrollController.addListener(() async {
+      if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+        await boardController.nextBoardPage();
+      }
+    });
   }
 
   @override
@@ -31,8 +39,8 @@ class _ProejctsScreenState extends State<ProejctsScreen> {
       height: size.height,
       child: Padding(
         padding: EdgeInsets.only(
-          top: responsivePadding(size.width) - 40,
-          bottom: responsivePadding(size.width) - 40,
+          top: responsiveVPadding(size.width),
+          bottom: responsiveVPadding(size.width),
           left: responsivePadding(size.width),
           right: responsivePadding(size.width),
         ),
@@ -41,6 +49,7 @@ class _ProejctsScreenState extends State<ProejctsScreen> {
             Obx(() {
               return Expanded(
                 child: GridView.builder(
+                    controller: scrollController,
                     itemCount: boardController.boardPosts.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: crossAxisCount(size.width),
@@ -80,8 +89,8 @@ class _ProejctsScreenState extends State<ProejctsScreen> {
     if (width > 1600) {
       return 4;
     } else if (width > 1200) {
-      return 4;
-    } else if (width > 800) {
+      return 3;
+    } else if (width > 900) {
       return 3;
     } else {
       return 2;
@@ -93,10 +102,22 @@ class _ProejctsScreenState extends State<ProejctsScreen> {
       return 100;
     } else if (width > 1200) {
       return 80;
-    } else if (width > 800) {
-      return 60;
-    } else {
+    } else if (width > 900) {
       return 30;
+    } else {
+      return 20;
+    }
+  }
+
+  double responsiveVPadding(double width) {
+    if (width > 1600) {
+      return 60;
+    } else if (width > 1200) {
+      return 40;
+    } else if (width > 900) {
+      return 30;
+    } else {
+      return 20;
     }
   }
 }
