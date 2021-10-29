@@ -13,7 +13,7 @@ class BoardController extends GetxController {
 
   /// 게시글 불러오기
   getBoardPage() async {
-    var result = await service.getBoardPage(Pageable(page: page.value, size: size.value));
+    var result = await service.getBoardPage(Pageable(page: 0, size: size.value));
 
     boardPosts.value = result;
   }

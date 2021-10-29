@@ -3,7 +3,7 @@ class BoardModel {
   String? title;
   String? thumbnail;
   String? createUser;
-  String? createTime;
+  DateTime? createTime;
   int used = 0;
   BoardDetail boardDetail = new BoardDetail();
 
@@ -22,7 +22,7 @@ class BoardModel {
     title = json['title'];
     thumbnail = json['thumbnail'];
     createUser = json['createUser'];
-    createTime = json['createTime'];
+    createTime = json['createTime'] == null ? null : DateTime.parse(json["createTime"]);
     used = json['used'] ?? 0;
     if (json['boardDetail'] != null) {
       boardDetail = new BoardDetail.fromJson(json['boardDetail']);
@@ -37,7 +37,7 @@ class BoardModel {
     data['title'] = this.title;
     data['thumbnail'] = this.thumbnail;
     data['createUser'] = this.createUser;
-    data['createTime'] = this.createTime;
+    data['createTime'] = this.createTime == null ? "" : this.createTime!.toIso8601String();
     data['used'] = this.used;
     data['boardDetail'] = this.boardDetail.toJson();
     return data;

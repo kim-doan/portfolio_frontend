@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/Controller/board_controller.dart';
+import 'package:portfolio/Model/board_model.dart';
 import 'package:portfolio/Screens/Home/components/background.dart';
+import 'package:portfolio/Screens/Projects/components/board_detail_form.dart';
 
 class ProejctsScreen extends StatefulWidget {
   const ProejctsScreen({Key? key}) : super(key: key);
@@ -58,22 +60,31 @@ class _ProejctsScreenState extends State<ProejctsScreen> {
                       crossAxisSpacing: 30,
                     ),
                     itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        color: Colors.white,
-                        child: GridTile(
+                      return MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: GestureDetector(
                           child: Container(
-                            child: (boardController.boardPosts[index].thumbnail == null ||
-                                    boardController.boardPosts[index].thumbnail == "")
-                                ? new Container()
-                                : Image.memory(
-                                    Base64Decoder().convert(boardController.boardPosts[index].thumbnail!),
-                                    fit: BoxFit.fill,
-                                  ),
+                            color: Colors.white,
+                            child: GridTile(
+                              child: Container(
+                                child: (boardController.boardPosts[index].thumbnail == null ||
+                                        boardController.boardPosts[index].thumbnail == "")
+                                    ? new Container()
+                                    : Image.memory(
+                                        Base64Decoder().convert(boardController.boardPosts[index].thumbnail!),
+                                        fit: BoxFit.fill,
+                                      ),
+                              ),
+                              footer: GridTileBar(
+                                backgroundColor: Colors.grey.withOpacity(0.9),
+                                title: Text(boardController.boardPosts[index].title ?? "",
+                                    style: TextStyle(fontFamily: 'AppleSdGothicNeo')),
+                              ),
+                            ),
                           ),
-                          footer: GridTileBar(
-                            backgroundColor: Colors.grey.withOpacity(0.9),
-                            title: Text(boardController.boardPosts[index].title ?? ""),
-                          ),
+                          onTap: () async {
+                            await boardDetailDialog(boardController.boardPosts[index]);
+                          },
                         ),
                       );
                     }),
@@ -83,6 +94,17 @@ class _ProejctsScreenState extends State<ProejctsScreen> {
         ),
       ),
     ));
+  }
+
+  Future<String?> boardDetailDialog(BoardModel board) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(board.title ?? ""),
+            content: BoardDetailForm(board: board),
+          );
+        });
   }
 
   int crossAxisCount(double width) {
