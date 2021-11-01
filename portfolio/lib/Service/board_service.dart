@@ -11,9 +11,7 @@ class BoardService {
   var config = AppConfig();
 
   ///게시글 정보 불러오기
-  Future<List<BoardModel>> getBoardPage(Pageable pageable) async {
-    List<BoardModel> list = new List<BoardModel>.from([]);
-
+  Future<BoardModel> getBoardPage(Pageable pageable) async {
     try {
       final response = await http.get(Uri.parse(
           config.baseURL + "/board/page?page=" + pageable.page.toString() + "&size=" + pageable.size.toString()));
@@ -22,16 +20,12 @@ class BoardService {
         var responseBody = convert.utf8.decode(response.bodyBytes);
         Map<String, dynamic> jsonResponse = convert.jsonDecode(responseBody);
 
-        jsonResponse['data'].forEach((v) {
-          list.add(BoardModel.fromJson(v));
-        });
-
-        return list;
+        return new BoardModel.fromJson(jsonResponse);
       } else {
-        return list;
+        return new BoardModel(success: false, code: response.statusCode.toString(), msg: response.body);
       }
     } on TimeoutException catch (_) {
-      return list;
+      return new BoardModel(success: false, msg: "API 요청시간을 초과했습니다.");
     }
   }
 }

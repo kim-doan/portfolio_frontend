@@ -44,6 +44,7 @@ dependencies:
   file_picker: ^4.1.4
   flutter_animation_progress_bar: ^2.0.1
   flutter_html: ^2.1.5
+  html_editor_enhanced: ^2.4.0+1
   device_info:
 
   # The following adds the Cupertino Icons font to your application.

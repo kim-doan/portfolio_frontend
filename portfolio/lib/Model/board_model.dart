@@ -1,4 +1,53 @@
 class BoardModel {
+  bool? success;
+  String? code;
+  String? msg;
+  int rowSize = 0;
+  int totalCount = 0;
+  int totalPages = 0;
+  List<Board> data = [];
+
+  BoardModel(
+      {this.success,
+      this.code,
+      this.msg,
+      this.rowSize = 0,
+      this.totalCount = 0,
+      this.totalPages = 0,
+      List<Board>? data})
+      : data = data ?? [];
+
+  BoardModel.fromJson(Map<String, dynamic> json) {
+    success = json['success'];
+    code = json['code'];
+    msg = json['msg'];
+    rowSize = json['rowSize'] ?? 0;
+    totalCount = json['totalCount'] ?? 0;
+    totalPages = json['totalPages'] ?? 0;
+
+    data = new List<Board>.from([]);
+    if (json['data'] != null) {
+      json['data'].forEach((v) {
+        data.add(new Board.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['success'] = this.success;
+    data['code'] = this.code;
+    data['msg'] = this.msg;
+    data['rowSize'] = this.rowSize;
+    data['totalCount'] = this.totalCount;
+    data['totalPages'] = this.totalPages;
+    data['data'] = this.data.map((v) => v.toJson()).toList();
+
+    return data;
+  }
+}
+
+class Board {
   String? boardId;
   String? title;
   String? thumbnail;
@@ -7,7 +56,7 @@ class BoardModel {
   int used = 0;
   BoardDetail boardDetail = new BoardDetail();
 
-  BoardModel(
+  Board(
       {this.boardId,
       this.title,
       this.thumbnail,
@@ -17,7 +66,7 @@ class BoardModel {
       BoardDetail? boardDetail})
       : boardDetail = boardDetail ?? new BoardDetail();
 
-  BoardModel.fromJson(Map<String, dynamic> json) {
+  Board.fromJson(Map<String, dynamic> json) {
     boardId = json['boardId'];
     title = json['title'];
     thumbnail = json['thumbnail'];

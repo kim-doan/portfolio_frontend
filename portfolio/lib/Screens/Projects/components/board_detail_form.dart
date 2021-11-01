@@ -5,7 +5,7 @@ import 'package:portfolio/Model/board_model.dart';
 
 class BoardDetailForm extends StatelessWidget {
   const BoardDetailForm({Key? key, required this.board}) : super(key: key);
-  final BoardModel board;
+  final Board board;
 
   @override
   Widget build(BuildContext context) {

@@ -17,6 +17,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return Background(
       child: Container(
+        height: size.height,
         alignment: Alignment.center,
         margin: EdgeInsets.all(100.w),
         child: Row(

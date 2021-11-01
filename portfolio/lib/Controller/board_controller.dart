@@ -4,26 +4,37 @@ import 'package:portfolio/Model/pageable_model.dart';
 import 'package:portfolio/Service/board_service.dart';
 
 class BoardController extends GetxController {
-  var boardPosts = List<BoardModel>.from([]).obs;
+  var boardPosts = List<Board>.from([]).obs;
 
   var page = 0.obs;
   var size = 12.obs;
 
+  var totalPages = 0.obs;
+
+  var focusedRowHandle = 0.obs;
+
   BoardService service = BoardService();
 
   /// 게시글 불러오기
-  getBoardPage() async {
-    var result = await service.getBoardPage(Pageable(page: 0, size: size.value));
+  getBoardPage(Pageable pageable) async {
+    var result = await service.getBoardPage(pageable);
 
-    boardPosts.value = result;
+    totalPages.value = result.totalPages;
+    boardPosts.value = result.data;
   }
 
   /// 게시글 다음페이지
   nextBoardPage() async {
-    page.value = page.value + 1;
+    if (page.value <= totalPages.value) {
+      page.value = page.value + 1;
+      var result = await service.getBoardPage(Pageable(page: page.value, size: size.value));
 
-    var result = await service.getBoardPage(Pageable(page: page.value, size: size.value));
+      totalPages.value = result.totalPages;
+      boardPosts.addAll(result.data);
+    }
+  }
 
-    boardPosts.addAll(result);
+  void setFocusedRowHandle(int _focusedRowHandle) {
+    focusedRowHandle.value = _focusedRowHandle;
   }
 }

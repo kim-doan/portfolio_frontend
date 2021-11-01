@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/Controller/board_controller.dart';
 import 'package:portfolio/Model/board_model.dart';
+import 'package:portfolio/Model/pageable_model.dart';
 import 'package:portfolio/Screens/Home/components/background.dart';
 import 'package:portfolio/Screens/Projects/components/board_detail_form.dart';
 
@@ -22,7 +23,7 @@ class _ProejctsScreenState extends State<ProejctsScreen> {
   @override
   void initState() {
     super.initState();
-    boardController.getBoardPage();
+    boardController.getBoardPage(new Pageable(size: 12, page: 0));
 
     scrollController.addListener(() async {
       if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
@@ -96,7 +97,7 @@ class _ProejctsScreenState extends State<ProejctsScreen> {
     ));
   }
 
-  Future<String?> boardDetailDialog(BoardModel board) async {
+  Future<String?> boardDetailDialog(Board board) async {
     return showDialog(
         context: context,
         builder: (context) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio/Screens/Admin/screen/AboutManage/about_manage.dart';
 import 'package:portfolio/Screens/Admin/screen/Dashboard/dashboard.dart';
+import 'package:portfolio/Screens/Admin/screen/ProjectManage/project_manage.dart';
 import 'package:portfolio/Screens/Admin/screen/UserManage/user_manage.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -15,9 +16,9 @@ class _AdminScreenState extends State<AdminScreen> {
   int selectedIndex = 0;
   bool expended = false;
 
-  List<Widget> screens = [Dashboard(), UserManage(), AboutManage()];
+  List<Widget> screens = [Dashboard(), UserManage(), AboutManage(), ProjectManage()];
 
-  List<String> menuName = ["대시보드", "사용자관리", "자기소개 관리"];
+  List<String> menuName = ["대시보드", "사용자관리", "자기소개관리", "프로젝트관리"];
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,8 @@ class _AdminScreenState extends State<AdminScreen> {
                   destinations: [
                     NavigationRailDestination(icon: Icon(Icons.dashboard), label: Text("대시보드")),
                     NavigationRailDestination(icon: Icon(Icons.person), label: Text("사용자관리")),
-                    NavigationRailDestination(icon: Icon(Icons.book), label: Text("자기소개 관리")),
+                    NavigationRailDestination(icon: Icon(Icons.book), label: Text("자기소개관리")),
+                    NavigationRailDestination(icon: Icon(Icons.book), label: Text("프로젝트관리")),
                   ],
                   selectedIndex: selectedIndex,
                   onDestinationSelected: (index) {

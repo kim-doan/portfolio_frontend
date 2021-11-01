@@ -1,26 +1,29 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:portfolio/Controller/user_controller.dart';
+import 'package:portfolio/Controller/board_controller.dart';
+import 'package:portfolio/Model/board_model.dart';
 import 'package:portfolio/Model/pageable_model.dart';
-import 'package:portfolio/Model/profile_model.dart';
+import 'package:portfolio/Screens/Admin/screen/ProjectManage/components/board_manage_form.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 
-class UserManage extends StatefulWidget {
-  const UserManage({Key? key}) : super(key: key);
+class ProjectManage extends StatefulWidget {
+  const ProjectManage({Key? key}) : super(key: key);
 
   @override
-  _UserManageState createState() => _UserManageState();
+  _ProjectManageState createState() => _ProjectManageState();
 }
 
-final int rowsPerPage = 10;
-List<Profile> pagenatedDataSource = [];
+final int rowPerPage = 10;
+List<BoardModel> pagenatedDataSource = [];
 
-class _UserManageState extends State<UserManage> {
-  var userController = Get.put(UserController());
+class _ProjectManageState extends State<ProjectManage> {
+  var boardController = Get.put(BoardController());
 
-  late UserProfileDataSource _userProfileDataSource;
+  late BoardDataSource _boardDataSource;
   bool showLoadingIndicator = true;
   double pageCount = 0;
   int page = 0;
@@ -28,7 +31,7 @@ class _UserManageState extends State<UserManage> {
   @override
   void initState() {
     super.initState();
-    _userProfileDataSource = UserProfileDataSource([]);
+    _boardDataSource = BoardDataSource([]);
   }
 
   @override
@@ -52,22 +55,22 @@ class _UserManageState extends State<UserManage> {
             Container(
               child: SfDataPager(
                 pageCount:
-                    userController.totalPages.value.toDouble() <= 0 ? 1 : userController.totalPages.value.toDouble(),
+                    boardController.totalPages.value.toDouble() <= 0 ? 1 : boardController.totalPages.value.toDouble(),
                 direction: Axis.horizontal,
                 onPageNavigationStart: (int pageIndex) async {
                   setState(() {
                     showLoadingIndicator = true;
                   });
                 },
-                delegate: _userProfileDataSource,
+                delegate: _boardDataSource,
                 onPageNavigationEnd: (int pageIndex) async {
-                  await userController.getUserAll(new Pageable(size: 10, page: pageIndex));
+                  await boardController.getBoardPage(new Pageable(size: 10, page: pageIndex));
                   setState(() {
                     showLoadingIndicator = false;
                   });
                 },
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -75,28 +78,37 @@ class _UserManageState extends State<UserManage> {
   }
 
   Widget _buildDataGrid() {
+    final DataGridController dataGridController = DataGridController();
+
     return SfDataGrid(
-        source: UserProfileDataSource(userController.userList),
+        source: BoardDataSource(boardController.boardPosts),
+        isScrollbarAlwaysShown: true,
         columnWidthMode: ColumnWidthMode.fill,
         selectionMode: SelectionMode.single,
+        controller: dataGridController,
+        onCellTap: (details) async {
+          dataGridController.selectedIndex = details.rowColumnIndex.rowIndex - 1;
+          boardController.setFocusedRowHandle(dataGridController.selectedIndex);
+          await boardManageDialog(boardController.boardPosts[dataGridController.selectedIndex]);
+        },
         columns: <GridColumn>[
           GridColumn(
-              columnName: 'userId',
+              columnName: 'title',
               label: Container(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   alignment: Alignment.center,
                   child: Text(
-                    '아이디',
+                    '제목',
                     style: TextStyle(fontFamily: 'AppleSdGothicNeo', color: Colors.white, fontSize: 16),
                     overflow: TextOverflow.ellipsis,
                   ))),
           GridColumn(
-              columnName: 'userName',
+              columnName: 'createUser',
               label: Container(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   alignment: Alignment.center,
                   child: Text(
-                    '닉네임',
+                    '작성자',
                     style: TextStyle(fontFamily: 'AppleSdGothicNeo', color: Colors.white, fontSize: 16),
                     overflow: TextOverflow.ellipsis,
                   ))),
@@ -106,12 +118,12 @@ class _UserManageState extends State<UserManage> {
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   alignment: Alignment.center,
                   child: Text(
-                    '생성일자',
+                    '작성일자',
                     style: TextStyle(fontFamily: 'AppleSdGothicNeo', color: Colors.white, fontSize: 16),
                     overflow: TextOverflow.ellipsis,
                   ))),
           GridColumn(
-              columnName: 'enabled',
+              columnName: 'used',
               label: Container(
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   alignment: Alignment.center,
@@ -121,6 +133,17 @@ class _UserManageState extends State<UserManage> {
                     overflow: TextOverflow.ellipsis,
                   )))
         ]);
+  }
+
+  Future<String?> boardManageDialog(Board board) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(board.title ?? ""),
+            content: BoardManageForm(board: board),
+          );
+        });
   }
 
   Widget _buildStack() {
@@ -147,22 +170,22 @@ class _UserManageState extends State<UserManage> {
   }
 }
 
-class UserProfileDataSource extends DataGridSource {
-  UserProfileDataSource(List<Profile> profile) {
-    dataGridRows = profile
-        .map<DataGridRow>((e) => DataGridRow(cells: [
-              DataGridCell(columnName: 'userId', value: e.userId),
-              DataGridCell(columnName: 'username', value: e.username),
-              DataGridCell(columnName: 'createTime', value: e.createTime),
-              DataGridCell(columnName: 'enabled', value: e.enabled),
-            ]))
-        .toList();
-  }
-
+class BoardDataSource extends DataGridSource {
   List<DataGridRow> dataGridRows = [];
 
   @override
   List<DataGridRow> get rows => dataGridRows;
+
+  BoardDataSource(List<Board> board) {
+    dataGridRows = board
+        .map<DataGridRow>((e) => DataGridRow(cells: [
+              DataGridCell(columnName: "title", value: e.title),
+              DataGridCell(columnName: "createUser", value: e.createUser),
+              DataGridCell(columnName: "createTime", value: e.createTime),
+              DataGridCell(columnName: "used", value: e.used),
+            ]))
+        .toList();
+  }
 
   @override
   DataGridRowAdapter buildRow(DataGridRow row) {
