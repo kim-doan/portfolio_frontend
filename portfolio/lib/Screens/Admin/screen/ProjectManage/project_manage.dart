@@ -1,11 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:portfolio/Controller/board_controller.dart';
 import 'package:portfolio/Model/board_model.dart';
 import 'package:portfolio/Model/pageable_model.dart';
+import 'package:portfolio/Screens/Admin/screen/ProjectManage/components/board_control_panel.dart';
 import 'package:portfolio/Screens/Admin/screen/ProjectManage/components/board_manage_form.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
@@ -40,7 +39,6 @@ class _ProjectManageState extends State<ProjectManage> {
 
     return Container(
       width: size.width > 715 ? size.width * 0.5 : size.width * 0.8,
-      color: Colors.white,
       child: SfTheme(
         data: SfThemeData(
             dataPagerThemeData: SfDataPagerThemeData(itemTextStyle: TextStyle(fontFamily: 'AppleSdGothicNeo')),
@@ -48,11 +46,14 @@ class _ProjectManageState extends State<ProjectManage> {
                 SfDataGridThemeData(headerColor: const Color(0xff009889), headerHoverColor: const Color(0xffabd0bc))),
         child: Column(
           children: [
+            BoardControlPanel(),
+            SizedBox(height: 20),
             SizedBox(
-              height: 600,
+              height: 545,
               child: _buildStack(),
             ),
             Container(
+              color: Colors.white,
               child: SfDataPager(
                 pageCount:
                     boardController.totalPages.value.toDouble() <= 0 ? 1 : boardController.totalPages.value.toDouble(),
@@ -153,7 +154,7 @@ class _ProjectManageState extends State<ProjectManage> {
 
       if (showLoadingIndicator) {
         stackChildren.add(Container(
-            color: Colors.black12,
+            color: Colors.white,
             child: Align(
                 alignment: Alignment.center,
                 child: CircularProgressIndicator(

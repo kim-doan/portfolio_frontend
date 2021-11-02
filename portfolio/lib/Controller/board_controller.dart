@@ -6,9 +6,10 @@ import 'package:portfolio/Service/board_service.dart';
 class BoardController extends GetxController {
   var boardPosts = List<Board>.from([]).obs;
 
+  var boardParam = Board().obs;
+
   var page = 0.obs;
   var size = 12.obs;
-
   var totalPages = 0.obs;
 
   var focusedRowHandle = 0.obs;
@@ -32,6 +33,11 @@ class BoardController extends GetxController {
       totalPages.value = result.totalPages;
       boardPosts.addAll(result.data);
     }
+  }
+
+  saveBoard(Board board) async {
+    boardParam.value = board;
+    service.setBoard(boardParam.value);
   }
 
   void setFocusedRowHandle(int _focusedRowHandle) {

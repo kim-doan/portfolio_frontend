@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:http/http.dart' as http;
 import 'package:portfolio/Model/board_model.dart';
+import 'package:portfolio/Model/common_result_model.dart';
 import 'package:portfolio/Model/pageable_model.dart';
 import 'dart:convert' as convert;
 
@@ -26,6 +27,28 @@ class BoardService {
       }
     } on TimeoutException catch (_) {
       return new BoardModel(success: false, msg: "API 요청시간을 초과했습니다.");
+    }
+  }
+
+  ///게시글 저장
+  Future<CommonResultModel> setBoard(Board board) async {
+    try {
+      final response = await http.post(Uri.parse(config.baseURL + "/board/save"),
+          headers: {
+            "content-type": "application/json",
+            "accept": "application/json",
+          },
+          body: convert.jsonEncode(board));
+
+      if (response.statusCode == 200) {
+        var responseBody = convert.utf8.decode(response.bodyBytes);
+        Map<String, dynamic> jsonResponse = convert.jsonDecode(responseBody);
+        return new CommonResultModel.fromJson(jsonResponse);
+      } else {
+        return new CommonResultModel(msg: response.statusCode.toString() + "error !");
+      }
+    } on TimeoutException catch (_) {
+      return new CommonResultModel(msg: "API 응답 시간을 초과했습니다.");
     }
   }
 }
