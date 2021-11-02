@@ -45,6 +45,7 @@ class _RegisterFormState extends State<RegisterForm> {
         children: [
           Container(
             height: ScreenUtil().setHeight(70),
+            alignment: Alignment.center,
             decoration: BoxDecoration(
                 border: Border.all(width: 2, color: Colors.grey), borderRadius: BorderRadius.all(Radius.circular(5))),
             child: Padding(
@@ -70,6 +71,7 @@ class _RegisterFormState extends State<RegisterForm> {
           SizedBox(height: 10.h),
           Container(
             height: ScreenUtil().setHeight(70),
+            alignment: Alignment.center,
             decoration: BoxDecoration(
                 border: Border.all(width: 2, color: Colors.grey), borderRadius: BorderRadius.all(Radius.circular(5))),
             child: Padding(
@@ -109,6 +111,7 @@ class _RegisterFormState extends State<RegisterForm> {
           SizedBox(height: 10.h),
           Container(
             height: ScreenUtil().setHeight(70),
+            alignment: Alignment.center,
             decoration: BoxDecoration(
                 border: Border.all(width: 2, color: Colors.grey), borderRadius: BorderRadius.all(Radius.circular(5))),
             child: Padding(
@@ -147,6 +150,7 @@ class _RegisterFormState extends State<RegisterForm> {
           SizedBox(height: 25.h),
           Container(
             height: ScreenUtil().setHeight(70),
+            alignment: Alignment.center,
             decoration: BoxDecoration(
                 border: Border.all(width: 2, color: Colors.grey), borderRadius: BorderRadius.all(Radius.circular(5))),
             child: Padding(

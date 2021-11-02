@@ -33,6 +33,7 @@ class _LoginFormState extends State<LoginForm> {
         children: [
           Container(
             height: ScreenUtil().setHeight(70),
+            alignment: Alignment.center,
             decoration: BoxDecoration(
                 border: Border.all(width: 2, color: Colors.grey), borderRadius: BorderRadius.all(Radius.circular(5))),
             child: Padding(
@@ -51,6 +52,7 @@ class _LoginFormState extends State<LoginForm> {
           SizedBox(height: 10.h),
           Container(
             height: ScreenUtil().setHeight(70),
+            alignment: Alignment.center,
             decoration: BoxDecoration(
                 border: Border.all(width: 2, color: Colors.grey), borderRadius: BorderRadius.all(Radius.circular(5))),
             child: Padding(

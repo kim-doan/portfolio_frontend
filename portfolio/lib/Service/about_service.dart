@@ -19,11 +19,17 @@ class AboutService {
         var responseBody = convert.utf8.decode(response.bodyBytes);
         Map<String, dynamic> jsonResponse = convert.jsonDecode(responseBody);
 
-        return new AboutModel.fromJson(jsonResponse["data"]);
+        if (jsonResponse["success"]) {
+          return new AboutModel.fromJson(jsonResponse["data"]);
+        } else {
+          return new AboutModel();
+        }
       } else {
         return new AboutModel();
       }
     } on TimeoutException catch (_) {
+      return new AboutModel();
+    } on Exception catch (_) {
       return new AboutModel();
     }
   }
