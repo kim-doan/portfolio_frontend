@@ -2,7 +2,6 @@ import 'package:get/get.dart';
 import 'package:portfolio/Model/about_model.dart';
 import 'package:portfolio/Model/common_result_model.dart';
 import 'package:portfolio/Service/about_service.dart';
-import 'dart:convert' as convert;
 
 class AboutController extends GetxController {
   var about = AboutModel().obs;

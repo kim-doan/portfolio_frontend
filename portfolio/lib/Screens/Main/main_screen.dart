@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/Components/bottom_bar.dart';
@@ -7,6 +9,7 @@ import 'package:portfolio/Components/login_form.dart';
 import 'package:portfolio/Controller/user_controller.dart';
 import 'package:portfolio/Screens/About/about_screen.dart';
 import 'package:portfolio/Screens/Admin/admin_screen.dart';
+import 'package:portfolio/Screens/Home/components/background.dart';
 import 'package:portfolio/Screens/Home/home_screen.dart';
 import 'package:portfolio/Screens/Projects/projects_screen.dart';
 import 'package:portfolio/Utils/content_view.dart';
@@ -24,6 +27,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateMixin {
   TabController? tabController;
   ItemScrollController? itemScrollController;
+  ItemPositionsListener? itemPositionsListener;
   var scaffoldKey = GlobalKey<ScaffoldState>();
 
   double? screenHeight;
@@ -50,11 +54,11 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
           title: 'Projects',
         ),
         content: ProejctsScreen()),
-    ContentView(
-        tab: CustomTab(
-          title: 'Contact',
-        ),
-        content: new Container()),
+    // ContentView(
+    //     tab: CustomTab(
+    //       title: 'Contact',
+    //     ),
+    //     content: new Container()),
   ];
 
   @override
@@ -62,6 +66,34 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
     super.initState();
     tabController = TabController(length: contentViews.length, vsync: this);
     itemScrollController = ItemScrollController();
+
+    itemPositionsListener = ItemPositionsListener.create();
+
+    var temp = 0.0;
+
+    itemPositionsListener!.itemPositions.addListener(() {
+      String scrollDirection = "";
+
+      if (temp < itemPositionsListener!.itemPositions.value.first.itemTrailingEdge) {
+        scrollDirection = "Top";
+        temp = itemPositionsListener!.itemPositions.value.first.itemTrailingEdge;
+      } else if (temp > itemPositionsListener!.itemPositions.value.first.itemTrailingEdge) {
+        scrollDirection = "Bottom";
+        temp = itemPositionsListener!.itemPositions.value.first.itemTrailingEdge;
+      }
+
+      if (scrollDirection == "Top") {
+        if (itemPositionsListener!.itemPositions.value.length > 1) {
+          int visibleIndex = itemPositionsListener!.itemPositions.value.first.index;
+          itemScrollController!.scrollTo(index: visibleIndex, duration: Duration(milliseconds: 150));
+        }
+      } else if (scrollDirection == "Bottom") {
+        if (itemPositionsListener!.itemPositions.value.length > 1) {
+          int visibleIndex = itemPositionsListener!.itemPositions.value.last.index;
+          itemScrollController!.scrollTo(index: visibleIndex, duration: Duration(milliseconds: 150));
+        }
+      }
+    });
   }
 
   @override
@@ -78,9 +110,11 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
       backgroundColor: Color(0xff1e1e24),
       key: scaffoldKey,
       endDrawer: drawer(),
-      body: Padding(
-        padding: EdgeInsets.only(top: topPadding!, bottom: bottomPadding!),
-        child: ViewWrapper(desktopView: desktopView(), mobileView: mobileView()),
+      body: Background(
+        child: Padding(
+          padding: EdgeInsets.only(top: topPadding!, bottom: bottomPadding!),
+          child: ViewWrapper(desktopView: desktopView(), mobileView: mobileView()),
+        ),
       ),
     );
   }
@@ -107,6 +141,7 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
 
         /// Tab Bar View
         Container(
+          padding: EdgeInsets.only(top: 30, bottom: 30),
           height: screenHeight! * 0.8,
           child: TabControllerHandler(
             tabController: tabController!,
@@ -151,6 +186,7 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
                 itemScrollController: itemScrollController,
                 itemCount: contentViews.length,
                 itemBuilder: (context, index) => contentViews[index].content,
+                itemPositionsListener: itemPositionsListener,
               ),
             )
           ],

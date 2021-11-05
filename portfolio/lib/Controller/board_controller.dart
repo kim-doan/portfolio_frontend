@@ -1,18 +1,17 @@
 import 'package:get/get.dart';
 import 'package:portfolio/Model/board_model.dart';
+import 'package:portfolio/Model/common_result_model.dart';
 import 'package:portfolio/Model/pageable_model.dart';
 import 'package:portfolio/Service/board_service.dart';
 
 class BoardController extends GetxController {
   var boardPosts = List<Board>.from([]).obs;
 
-  var boardParam = Board().obs;
-
   var page = 0.obs;
   var size = 12.obs;
   var totalPages = 0.obs;
 
-  var focusedRowHandle = 0.obs;
+  var focusedRowHandle = (-1).obs;
 
   BoardService service = BoardService();
 
@@ -35,9 +34,10 @@ class BoardController extends GetxController {
     }
   }
 
-  saveBoard(Board board) async {
-    boardParam.value = board;
-    service.setBoard(boardParam.value);
+  Future<CommonResultModel> saveBoard(Board board) async {
+    CommonResultModel result = await service.setBoard(board);
+
+    return result;
   }
 
   void setFocusedRowHandle(int _focusedRowHandle) {

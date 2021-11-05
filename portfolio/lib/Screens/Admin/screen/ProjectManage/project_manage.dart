@@ -81,59 +81,61 @@ class _ProjectManageState extends State<ProjectManage> {
   Widget _buildDataGrid() {
     final DataGridController dataGridController = DataGridController();
 
-    return SfDataGrid(
-        source: BoardDataSource(boardController.boardPosts),
-        isScrollbarAlwaysShown: true,
-        columnWidthMode: ColumnWidthMode.fill,
-        selectionMode: SelectionMode.single,
-        controller: dataGridController,
-        onCellTap: (details) async {
-          dataGridController.selectedIndex = details.rowColumnIndex.rowIndex - 1;
-          boardController.setFocusedRowHandle(dataGridController.selectedIndex);
-          await boardManageDialog(boardController.boardPosts[dataGridController.selectedIndex]);
-        },
-        columns: <GridColumn>[
-          GridColumn(
-              columnName: 'title',
-              label: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  alignment: Alignment.center,
-                  child: Text(
-                    '제목',
-                    style: TextStyle(fontFamily: 'AppleSdGothicNeo', color: Colors.white, fontSize: 16),
-                    overflow: TextOverflow.ellipsis,
-                  ))),
-          GridColumn(
-              columnName: 'createUser',
-              label: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  alignment: Alignment.center,
-                  child: Text(
-                    '작성자',
-                    style: TextStyle(fontFamily: 'AppleSdGothicNeo', color: Colors.white, fontSize: 16),
-                    overflow: TextOverflow.ellipsis,
-                  ))),
-          GridColumn(
-              columnName: 'createTime',
-              label: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  alignment: Alignment.center,
-                  child: Text(
-                    '작성일자',
-                    style: TextStyle(fontFamily: 'AppleSdGothicNeo', color: Colors.white, fontSize: 16),
-                    overflow: TextOverflow.ellipsis,
-                  ))),
-          GridColumn(
-              columnName: 'used',
-              label: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  alignment: Alignment.center,
-                  child: Text(
-                    '활성화',
-                    style: TextStyle(fontFamily: 'AppleSdGothicNeo', color: Colors.white, fontSize: 16),
-                    overflow: TextOverflow.ellipsis,
-                  )))
-        ]);
+    return Obx(() {
+      return SfDataGrid(
+          source: BoardDataSource(boardController.boardPosts),
+          isScrollbarAlwaysShown: true,
+          columnWidthMode: ColumnWidthMode.fill,
+          selectionMode: SelectionMode.single,
+          controller: dataGridController,
+          onCellTap: (details) async {
+            dataGridController.selectedIndex = details.rowColumnIndex.rowIndex - 1;
+            boardController.setFocusedRowHandle(dataGridController.selectedIndex);
+            await boardManageDialog(boardController.boardPosts[dataGridController.selectedIndex]);
+          },
+          columns: <GridColumn>[
+            GridColumn(
+                columnName: 'title',
+                label: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    alignment: Alignment.center,
+                    child: Text(
+                      '제목',
+                      style: TextStyle(fontFamily: 'AppleSdGothicNeo', color: Colors.white, fontSize: 16),
+                      overflow: TextOverflow.ellipsis,
+                    ))),
+            GridColumn(
+                columnName: 'createUser',
+                label: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    alignment: Alignment.center,
+                    child: Text(
+                      '작성자',
+                      style: TextStyle(fontFamily: 'AppleSdGothicNeo', color: Colors.white, fontSize: 16),
+                      overflow: TextOverflow.ellipsis,
+                    ))),
+            GridColumn(
+                columnName: 'createTime',
+                label: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    alignment: Alignment.center,
+                    child: Text(
+                      '작성일자',
+                      style: TextStyle(fontFamily: 'AppleSdGothicNeo', color: Colors.white, fontSize: 16),
+                      overflow: TextOverflow.ellipsis,
+                    ))),
+            GridColumn(
+                columnName: 'used',
+                label: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    alignment: Alignment.center,
+                    child: Text(
+                      '활성화',
+                      style: TextStyle(fontFamily: 'AppleSdGothicNeo', color: Colors.white, fontSize: 16),
+                      overflow: TextOverflow.ellipsis,
+                    )))
+          ]);
+    });
   }
 
   Future<String?> boardManageDialog(Board board) async {
@@ -197,6 +199,16 @@ class BoardDataSource extends DataGridSource {
           child: Center(
             child: Text(
               new DateFormat("yyyy-MM-dd").format(DateTime.parse(dataGridCell.value.toString())),
+            ),
+          ),
+        );
+      } else if (dataGridCell.columnName == "used") {
+        return Container(
+          child: Center(
+            child: Text(
+              dataGridCell.value.toString() == "1" ? "Y" : "N",
+              style: TextStyle(fontFamily: 'AppleSdGothicNeo'),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         );
