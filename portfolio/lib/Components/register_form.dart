@@ -5,8 +5,6 @@ import 'package:get/get.dart';
 import 'package:portfolio/Components/login_form.dart';
 import 'package:portfolio/Controller/loading_controller.dart';
 import 'package:portfolio/Controller/user_controller.dart';
-import 'package:portfolio/Model/common_result_model.dart';
-import 'package:portfolio/Screens/Main/main_screen.dart';
 import 'package:portfolio/constants.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -48,24 +46,21 @@ class _RegisterFormState extends State<RegisterForm> {
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 border: Border.all(width: 2, color: Colors.grey), borderRadius: BorderRadius.all(Radius.circular(5))),
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: TextField(
-                keyboardType: TextInputType.emailAddress,
-                controller: idController,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.person),
-                  border: InputBorder.none,
-                  hintText: "아이디",
-                ),
-                onChanged: (value) {
-                  if (value.trim().length > 1) {
-                    formValidate["id"] = true;
-                  } else {
-                    formValidate["id"] = false;
-                  }
-                },
+            child: TextField(
+              keyboardType: TextInputType.emailAddress,
+              controller: idController,
+              decoration: InputDecoration(
+                icon: Icon(Icons.person),
+                border: InputBorder.none,
+                hintText: "아이디",
               ),
+              onChanged: (value) {
+                if (value.trim().length > 1) {
+                  formValidate["id"] = true;
+                } else {
+                  formValidate["id"] = false;
+                }
+              },
             ),
           ),
           SizedBox(height: 10.h),
@@ -74,77 +69,72 @@ class _RegisterFormState extends State<RegisterForm> {
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 border: Border.all(width: 2, color: Colors.grey), borderRadius: BorderRadius.all(Radius.circular(5))),
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: TextField(
-                obscureText: obscureText,
-                controller: pwController,
-                decoration: InputDecoration(
-                  icon: Icon(
-                    Icons.lock,
-                    color: Colors.grey,
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.visibility, color: obscureColor),
-                    onPressed: () {
-                      setState(() {
-                        obscureText = !obscureText;
-                        obscureColor = obscureText ? Colors.grey : kPrimaryColor;
-                      });
-                    },
-                  ),
-                  border: InputBorder.none,
-                  hintText: "비밀번호",
+            child: TextField(
+              obscureText: obscureText,
+              controller: pwController,
+              decoration: InputDecoration(
+                icon: Icon(
+                  Icons.lock,
+                  color: Colors.grey,
                 ),
-                onChanged: (value) {
+                suffixIcon: IconButton(
+                  alignment: Alignment.center,
+                  icon: Icon(Icons.visibility, color: obscureColor),
+                  onPressed: () {
+                    setState(() {
+                      obscureText = !obscureText;
+                      obscureColor = obscureText ? Colors.grey : kPrimaryColor;
+                    });
+                  },
+                ),
+                border: InputBorder.none,
+                hintText: "비밀번호",
+              ),
+              onChanged: (value) {
+                setState(() {
+                  if (value.trim().length > 0) {
+                    formValidate["pw"] = true;
+                  } else {
+                    formValidate["pw"] = true;
+                  }
+                });
+              },
+            ),
+          ),
+          SizedBox(height: 10.h),
+          Container(
+            height: ScreenUtil().setHeight(70),
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+                border: Border.all(width: 2, color: Colors.grey), borderRadius: BorderRadius.all(Radius.circular(5))),
+            child: TextField(
+              obscureText: obscureText,
+              controller: pwCheckController,
+              decoration: InputDecoration(
+                icon: Icon(
+                  Icons.lock,
+                  color: Colors.grey,
+                ),
+                suffixIcon: Icon(
+                  Icons.check,
+                  color: pwCheckColor,
+                ),
+                border: InputBorder.none,
+                hintText: "비밀번호 확인",
+              ),
+              onChanged: (value) {
+                if (pwController.text == value) {
                   setState(() {
-                    if (value.trim().length > 0) {
-                      formValidate["pw"] = true;
-                    } else {
-                      formValidate["pw"] = true;
-                    }
+                    pwCheckColor = Colors.green;
+                    formValidate["pwCheck"] = true;
                   });
-                },
-              ),
-            ),
-          ),
-          SizedBox(height: 10.h),
-          Container(
-            height: ScreenUtil().setHeight(70),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-                border: Border.all(width: 2, color: Colors.grey), borderRadius: BorderRadius.all(Radius.circular(5))),
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: TextField(
-                obscureText: obscureText,
-                controller: pwCheckController,
-                decoration: InputDecoration(
-                  icon: Icon(
-                    Icons.lock,
-                    color: Colors.grey,
-                  ),
-                  suffixIcon: Icon(
-                    Icons.check,
-                    color: pwCheckColor,
-                  ),
-                  border: InputBorder.none,
-                  hintText: "비밀번호 확인",
-                ),
-                onChanged: (value) {
-                  if (pwController.text == value) {
-                    setState(() {
-                      pwCheckColor = Colors.green;
-                      formValidate["pwCheck"] = true;
-                    });
-                  } else {
-                    setState(() {
-                      pwCheckColor = Colors.red;
-                      formValidate["pwCheck"] = false;
-                    });
-                  }
-                },
-              ),
+                } else {
+                  setState(() {
+                    pwCheckColor = Colors.red;
+                    formValidate["pwCheck"] = false;
+                  });
+                }
+              },
             ),
           ),
           SizedBox(height: 25.h),
@@ -153,39 +143,36 @@ class _RegisterFormState extends State<RegisterForm> {
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 border: Border.all(width: 2, color: Colors.grey), borderRadius: BorderRadius.all(Radius.circular(5))),
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: TextField(
-                keyboardType: TextInputType.emailAddress,
-                controller: nameController,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.person),
-                  border: InputBorder.none,
-                  hintText: "별명 (2~5자)",
-                ),
-                onChanged: (value) {
-                  if (value.trim().length >= 2 && value.trim().length <= 5) {
-                    setState(() {
-                      formValidate["username"] = true;
-                    });
-                  } else {
-                    setState(() {
-                      formValidate["username"] = true;
-                    });
-                  }
-                },
+            child: TextField(
+              keyboardType: TextInputType.emailAddress,
+              controller: nameController,
+              decoration: InputDecoration(
+                icon: Icon(Icons.person),
+                border: InputBorder.none,
+                hintText: "별명 (2~5자)",
               ),
+              onChanged: (value) {
+                if (value.trim().length >= 2 && value.trim().length <= 5) {
+                  setState(() {
+                    formValidate["username"] = true;
+                  });
+                } else {
+                  setState(() {
+                    formValidate["username"] = true;
+                  });
+                }
+              },
             ),
           ),
           SizedBox(height: 20.h),
           Container(
               width: 300,
-              height: ScreenUtil().setHeight(50),
+              height: 40,
               decoration: BoxDecoration(
                   border: Border.all(width: 2, color: Colors.grey), borderRadius: BorderRadius.all(Radius.circular(5))),
               child: TextButton(
                 style: TextButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    // padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     backgroundColor: Colors.blue[800],
                     primary: Colors.white),
                 child: Text("회원가입"),

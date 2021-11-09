@@ -34,6 +34,7 @@ class BoardDetailForm extends StatelessWidget {
 
   Widget _writerRow() {
     return Container(
+      alignment: Alignment.center,
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
           border: Border(

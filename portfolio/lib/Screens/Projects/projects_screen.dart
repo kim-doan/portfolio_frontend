@@ -104,13 +104,23 @@ class _ProejctsScreenState extends State<ProejctsScreen> {
 
   Future<String?> boardDetailDialog(Board board) async {
     return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text(board.title ?? ""),
-            content: BoardDetailForm(board: board),
-          );
-        });
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(board.title ?? ""),
+          content: BoardDetailForm(board: board),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(
+                Icons.exit_to_app,
+                size: 35,
+              ),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   int crossAxisCount(double width) {

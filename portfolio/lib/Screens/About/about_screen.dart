@@ -27,7 +27,6 @@ class _AboutScreenState extends State<AboutScreen> {
           if (size.width > 1692)
             Container(
               alignment: Alignment.center,
-              // color: Colors.white,
               width: size.width * 0.5,
               height: size.height,
               child: Column(
@@ -36,15 +35,15 @@ class _AboutScreenState extends State<AboutScreen> {
                 children: [
                   Text(
                     "만나서",
-                    style: TextStyle(fontSize: 70, color: Color(0xFF076799), fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 70, color: Color(0xFF7D7D7D), fontWeight: FontWeight.bold),
                   ),
                   Text(
                     "반갑습니다.",
-                    style: TextStyle(fontSize: 70, color: Color(0xFF3F3F3F), fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 70, color: Color(0xFFB7B7B7), fontWeight: FontWeight.bold),
                   ),
                   Text(
                     "김도안입니다.",
-                    style: TextStyle(fontSize: 70, color: Color(0xFFB3B3B3), fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 70, color: Color(0xFFFFFFFF), fontWeight: FontWeight.bold),
                   ),
                 ],
               ),

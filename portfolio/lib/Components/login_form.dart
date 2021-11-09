@@ -36,16 +36,13 @@ class _LoginFormState extends State<LoginForm> {
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 border: Border.all(width: 2, color: Colors.grey), borderRadius: BorderRadius.all(Radius.circular(5))),
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: TextField(
-                keyboardType: TextInputType.emailAddress,
-                controller: idController,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.person),
-                  border: InputBorder.none,
-                  hintText: "아이디",
-                ),
+            child: TextField(
+              keyboardType: TextInputType.emailAddress,
+              controller: idController,
+              decoration: InputDecoration(
+                icon: Icon(Icons.person),
+                border: InputBorder.none,
+                hintText: "아이디",
               ),
             ),
           ),
@@ -55,32 +52,30 @@ class _LoginFormState extends State<LoginForm> {
             alignment: Alignment.center,
             decoration: BoxDecoration(
                 border: Border.all(width: 2, color: Colors.grey), borderRadius: BorderRadius.all(Radius.circular(5))),
-            child: Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: TextField(
-                obscureText: obscureText,
-                controller: pwController,
-                decoration: InputDecoration(
-                  icon: Icon(
-                    Icons.lock,
-                    color: Colors.grey,
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.visibility, color: obscureColor),
-                    onPressed: () {
-                      setState(() {
-                        obscureText = !obscureText;
-                        obscureColor = obscureText ? Colors.grey : kPrimaryColor;
-                      });
-                    },
-                  ),
-                  border: InputBorder.none,
-                  hintText: "비밀번호",
+            child: TextField(
+              obscureText: obscureText,
+              controller: pwController,
+              decoration: InputDecoration(
+                icon: Icon(
+                  Icons.lock,
+                  color: Colors.grey,
                 ),
-                onSubmitted: (value) async {
-                  loginBtnPressed();
-                },
+                suffixIcon: IconButton(
+                  alignment: Alignment.center,
+                  icon: Icon(Icons.visibility, color: obscureColor),
+                  onPressed: () {
+                    setState(() {
+                      obscureText = !obscureText;
+                      obscureColor = obscureText ? Colors.grey : kPrimaryColor;
+                    });
+                  },
+                ),
+                border: InputBorder.none,
+                hintText: "비밀번호",
               ),
+              onSubmitted: (value) async {
+                loginBtnPressed();
+              },
             ),
           ),
           SizedBox(height: 20.h),
@@ -109,12 +104,12 @@ class _LoginFormState extends State<LoginForm> {
           SizedBox(height: 20.h),
           Container(
               width: 300,
-              height: ScreenUtil().setHeight(50),
+              height: 40,
               decoration: BoxDecoration(
                   border: Border.all(width: 2, color: Colors.grey), borderRadius: BorderRadius.all(Radius.circular(5))),
               child: TextButton(
                 style: TextButton.styleFrom(
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    // padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                     backgroundColor: Colors.blue[800],
                     primary: Colors.white),
                 child: Text("로그인"),

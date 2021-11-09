@@ -39,7 +39,7 @@ class _AboutInfoState extends State<AboutInfo> {
       height: size.height,
       child: Padding(
         padding: size.width > 710
-            ? const EdgeInsets.only(top: 100, bottom: 100, left: 50, right: 50)
+            ? const EdgeInsets.only(top: 50, bottom: 50, left: 50, right: 50)
             : const EdgeInsets.all(1),
         child: Container(
           alignment: Alignment.center,
