@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:portfolio/Controller/board_controller.dart';
@@ -41,7 +42,7 @@ class _ProjectManageState extends State<ProjectManage> {
       width: size.width > 715 ? size.width * 0.5 : size.width * 0.8,
       child: SfTheme(
         data: SfThemeData(
-            dataPagerThemeData: SfDataPagerThemeData(itemTextStyle: TextStyle(fontFamily: 'AppleSdGothicNeo')),
+            dataPagerThemeData: SfDataPagerThemeData(itemTextStyle: TextStyle(fontFamily: 'NanumSquare')),
             dataGridThemeData:
                 SfDataGridThemeData(headerColor: const Color(0xff009889), headerHoverColor: const Color(0xffabd0bc))),
         child: Column(
@@ -91,7 +92,21 @@ class _ProjectManageState extends State<ProjectManage> {
           onCellTap: (details) async {
             dataGridController.selectedIndex = details.rowColumnIndex.rowIndex - 1;
             boardController.setFocusedRowHandle(dataGridController.selectedIndex);
-            await boardManageDialog(boardController.boardPosts[dataGridController.selectedIndex]);
+
+            String boardId = boardController.boardPosts[dataGridController.selectedIndex].boardId ?? "";
+            Board? boardDetail = await boardController.getBoardDetail(boardId);
+
+            if (boardDetail != null) {
+              await boardManageDialog(boardDetail);
+            } else {
+              Fluttertoast.showToast(
+                  msg: "게시글 상세정보를 찾을 수 없습니다.",
+                  backgroundColor: Colors.black,
+                  webPosition: "center",
+                  webBgColor: "#ea4335",
+                  timeInSecForIosWeb: 3,
+                  textColor: Colors.white);
+            }
           },
           columns: <GridColumn>[
             GridColumn(
@@ -101,7 +116,7 @@ class _ProjectManageState extends State<ProjectManage> {
                     alignment: Alignment.center,
                     child: Text(
                       '제목',
-                      style: TextStyle(fontFamily: 'AppleSdGothicNeo', color: Colors.white, fontSize: 16),
+                      style: TextStyle(fontFamily: 'NanumSquare', color: Colors.white, fontSize: 16),
                       overflow: TextOverflow.ellipsis,
                     ))),
             GridColumn(
@@ -111,7 +126,7 @@ class _ProjectManageState extends State<ProjectManage> {
                     alignment: Alignment.center,
                     child: Text(
                       '작성자',
-                      style: TextStyle(fontFamily: 'AppleSdGothicNeo', color: Colors.white, fontSize: 16),
+                      style: TextStyle(fontFamily: 'NanumSquare', color: Colors.white, fontSize: 16),
                       overflow: TextOverflow.ellipsis,
                     ))),
             GridColumn(
@@ -121,7 +136,7 @@ class _ProjectManageState extends State<ProjectManage> {
                     alignment: Alignment.center,
                     child: Text(
                       '작성일자',
-                      style: TextStyle(fontFamily: 'AppleSdGothicNeo', color: Colors.white, fontSize: 16),
+                      style: TextStyle(fontFamily: 'NanumSquare', color: Colors.white, fontSize: 16),
                       overflow: TextOverflow.ellipsis,
                     ))),
             GridColumn(
@@ -131,7 +146,7 @@ class _ProjectManageState extends State<ProjectManage> {
                     alignment: Alignment.center,
                     child: Text(
                       '활성화',
-                      style: TextStyle(fontFamily: 'AppleSdGothicNeo', color: Colors.white, fontSize: 16),
+                      style: TextStyle(fontFamily: 'NanumSquare', color: Colors.white, fontSize: 16),
                       overflow: TextOverflow.ellipsis,
                     )))
           ]);
@@ -207,7 +222,7 @@ class BoardDataSource extends DataGridSource {
           child: Center(
             child: Text(
               dataGridCell.value.toString() == "1" ? "Y" : "N",
-              style: TextStyle(fontFamily: 'AppleSdGothicNeo'),
+              style: TextStyle(fontFamily: 'NanumSquare'),
               overflow: TextOverflow.ellipsis,
             ),
           ),
@@ -217,7 +232,7 @@ class BoardDataSource extends DataGridSource {
           child: Center(
             child: Text(
               dataGridCell.value.toString(),
-              style: TextStyle(fontFamily: 'AppleSdGothicNeo'),
+              style: TextStyle(fontFamily: 'NanumSquare'),
               overflow: TextOverflow.ellipsis,
             ),
           ),

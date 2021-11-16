@@ -23,6 +23,13 @@ class BoardController extends GetxController {
     boardPosts.value = result.data;
   }
 
+  /// 게시글 상세보기
+  Future<Board?> getBoardDetail(String boardId) async {
+    var result = await service.getBoardDetail(boardId);
+
+    return result;
+  }
+
   /// 게시글 다음페이지
   nextBoardPage() async {
     if (page.value <= totalPages.value) {

@@ -30,6 +30,24 @@ class BoardService {
     }
   }
 
+  ///게시글 상세정보
+  Future<Board?> getBoardDetail(String boardId) async {
+    try {
+      final response = await http.get(Uri.parse(config.baseURL + "/board?boardId=" + boardId));
+
+      if (response.statusCode == 200) {
+        var responseBody = convert.utf8.decode(response.bodyBytes);
+        Map<String, dynamic> jsonResponse = convert.jsonDecode(responseBody);
+
+        if (jsonResponse["success"] == true) {
+          return new Board.fromJson(jsonResponse["data"]);
+        }
+      }
+    } on TimeoutException catch (_) {
+      return null;
+    }
+  }
+
   ///게시글 저장
   Future<CommonResultModel> setBoard(Board board) async {
     try {

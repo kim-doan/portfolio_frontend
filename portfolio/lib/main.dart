@@ -45,11 +45,11 @@ class _MyAppState extends State<MyApp> {
       designSize: Size(1920, 1080),
       builder: () => GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: '김도안 포트폴리오',
         theme: ThemeData(
           primaryColor: kPrimaryColor,
           scaffoldBackgroundColor: Color(0xFF262626),
-          fontFamily: 'AppleSdGothicNeo',
+          fontFamily: 'NanumSquare',
         ),
         home: MainScreen(),
         localizationsDelegates: [

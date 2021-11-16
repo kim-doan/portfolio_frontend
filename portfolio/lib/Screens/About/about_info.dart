@@ -39,7 +39,7 @@ class _AboutInfoState extends State<AboutInfo> {
       height: size.height,
       child: Padding(
         padding: size.width > 710
-            ? const EdgeInsets.only(top: 50, bottom: 50, left: 50, right: 50)
+            ? const EdgeInsets.only(top: 30, bottom: 30, left: 50, right: 50)
             : const EdgeInsets.all(1),
         child: Container(
           alignment: Alignment.center,
@@ -86,11 +86,11 @@ class _AboutInfoState extends State<AboutInfo> {
           decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Colors.grey.shade500))),
           child: Text(
             title,
-            style: TextStyle(fontSize: size.width > 1000 ? 20 : 14, color: Color(0xFF2278bd)),
+            style: TextStyle(fontSize: size.width > 1000 ? 19 : 14, color: Color(0xFF2278bd)),
           ),
         ),
         SizedBox(width: 40),
-        Text(content, style: TextStyle(fontSize: size.width > 1000 ? 20 : 14, color: Colors.white)),
+        Text(content, style: TextStyle(fontSize: size.width > 1000 ? 19 : 14, color: Colors.white)),
       ],
     );
   }
@@ -107,7 +107,7 @@ class _AboutInfoState extends State<AboutInfo> {
           decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Colors.grey.shade500))),
           child: Text(
             title,
-            style: TextStyle(fontSize: size.width > 1000 ? 20 : 14, color: Color(0xFF2278bd)),
+            style: TextStyle(fontSize: size.width > 1000 ? 19 : 14, color: Color(0xFF2278bd)),
           ),
         ),
         SizedBox(width: 40),
@@ -123,10 +123,10 @@ class _AboutInfoState extends State<AboutInfo> {
                                   DateFormat("yyyy-MM-dd").format(content.startDate!) +
                                       " ~ " +
                                       ((content.endDate == null)
-                                          ? "현재             "
+                                          ? "현재                "
                                           : DateFormat("yyyy-MM-dd").format(content.endDate!)) +
                                       " | ",
-                                  style: TextStyle(fontSize: size.width > 1000 ? 20 : 14, color: Colors.grey[400])),
+                                  style: TextStyle(fontSize: size.width > 1000 ? 19 : 14, color: Colors.grey[400])),
                               SizedBox(height: 15),
                             ],
                           ))
@@ -138,7 +138,7 @@ class _AboutInfoState extends State<AboutInfo> {
                     .map((content) => Column(
                           children: [
                             new Text(content.contents,
-                                style: TextStyle(fontSize: size.width > 1000 ? 20 : 14, color: Colors.white)),
+                                style: TextStyle(fontSize: size.width > 1000 ? 19 : 14, color: Colors.white)),
                             SizedBox(height: 15),
                           ],
                         ))
@@ -161,7 +161,7 @@ class _AboutInfoState extends State<AboutInfo> {
           decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Colors.grey.shade500))),
           child: Text(
             title,
-            style: TextStyle(fontSize: size.width > 1000 ? 20 : 14, color: Color(0xFF2278bd)),
+            style: TextStyle(fontSize: size.width > 1000 ? 19 : 14, color: Color(0xFF2278bd)),
           ),
         ),
         SizedBox(width: 40),
@@ -179,7 +179,7 @@ class _AboutInfoState extends State<AboutInfo> {
                         ),
                         Text(
                           stack.stackName,
-                          style: TextStyle(fontSize: size.width > 1000 ? 20 : 14, color: Colors.white),
+                          style: TextStyle(fontSize: size.width > 1000 ? 19 : 14, color: Colors.white),
                         ),
                         SizedBox(width: 30),
                         Container(

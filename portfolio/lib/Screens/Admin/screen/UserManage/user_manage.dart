@@ -40,7 +40,7 @@ class _UserManageState extends State<UserManage> {
       color: Colors.white,
       child: SfTheme(
         data: SfThemeData(
-            dataPagerThemeData: SfDataPagerThemeData(itemTextStyle: TextStyle(fontFamily: 'AppleSdGothicNeo')),
+            dataPagerThemeData: SfDataPagerThemeData(itemTextStyle: TextStyle(fontFamily: 'NanumSquare')),
             dataGridThemeData:
                 SfDataGridThemeData(headerColor: const Color(0xff009889), headerHoverColor: const Color(0xffabd0bc))),
         child: Column(
@@ -87,7 +87,7 @@ class _UserManageState extends State<UserManage> {
                   alignment: Alignment.center,
                   child: Text(
                     '아이디',
-                    style: TextStyle(fontFamily: 'AppleSdGothicNeo', color: Colors.white, fontSize: 16),
+                    style: TextStyle(fontFamily: 'NanumSquare', color: Colors.white, fontSize: 16),
                     overflow: TextOverflow.ellipsis,
                   ))),
           GridColumn(
@@ -97,7 +97,7 @@ class _UserManageState extends State<UserManage> {
                   alignment: Alignment.center,
                   child: Text(
                     '닉네임',
-                    style: TextStyle(fontFamily: 'AppleSdGothicNeo', color: Colors.white, fontSize: 16),
+                    style: TextStyle(fontFamily: 'NanumSquare', color: Colors.white, fontSize: 16),
                     overflow: TextOverflow.ellipsis,
                   ))),
           GridColumn(
@@ -107,7 +107,7 @@ class _UserManageState extends State<UserManage> {
                   alignment: Alignment.center,
                   child: Text(
                     '생성일자',
-                    style: TextStyle(fontFamily: 'AppleSdGothicNeo', color: Colors.white, fontSize: 16),
+                    style: TextStyle(fontFamily: 'NanumSquare', color: Colors.white, fontSize: 16),
                     overflow: TextOverflow.ellipsis,
                   ))),
           GridColumn(
@@ -117,7 +117,7 @@ class _UserManageState extends State<UserManage> {
                   alignment: Alignment.center,
                   child: Text(
                     '활성화',
-                    style: TextStyle(fontFamily: 'AppleSdGothicNeo', color: Colors.white, fontSize: 16),
+                    style: TextStyle(fontFamily: 'NanumSquare', color: Colors.white, fontSize: 16),
                     overflow: TextOverflow.ellipsis,
                   )))
         ]);
@@ -181,7 +181,7 @@ class UserProfileDataSource extends DataGridSource {
           child: Center(
             child: Text(
               dataGridCell.value.toString(),
-              style: TextStyle(fontFamily: 'AppleSdGothicNeo'),
+              style: TextStyle(fontFamily: 'NanumSquare'),
               overflow: TextOverflow.ellipsis,
             ),
           ),

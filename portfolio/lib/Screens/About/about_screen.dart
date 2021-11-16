@@ -24,10 +24,10 @@ class _AboutScreenState extends State<AboutScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (size.width > 1692)
+          if (size.width > 1250)
             Container(
               alignment: Alignment.center,
-              width: size.width * 0.5,
+              width: (size.width > 1650) ? size.width * 0.5 : size.width * 0.35,
               height: size.height,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -35,15 +35,17 @@ class _AboutScreenState extends State<AboutScreen> {
                 children: [
                   Text(
                     "만나서",
-                    style: TextStyle(fontSize: 70, color: Color(0xFF7D7D7D), fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 70, color: Color(0xFF7D7D7D), fontWeight: FontWeight.w800),
                   ),
+                  SizedBox(height: 20),
                   Text(
                     "반갑습니다.",
-                    style: TextStyle(fontSize: 70, color: Color(0xFFB7B7B7), fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 70, color: Color(0xFFB7B7B7), fontWeight: FontWeight.w800),
                   ),
+                  SizedBox(height: 20),
                   Text(
                     "김도안입니다.",
-                    style: TextStyle(fontSize: 70, color: Color(0xFFFFFFFF), fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 70, color: Color(0xFFFFFFFF), fontWeight: FontWeight.w800),
                   ),
                 ],
               ),

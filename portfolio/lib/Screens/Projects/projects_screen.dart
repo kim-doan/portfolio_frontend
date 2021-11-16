@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:portfolio/Controller/board_controller.dart';
 import 'package:portfolio/Controller/loading_controller.dart';
@@ -84,12 +85,28 @@ class _ProejctsScreenState extends State<ProejctsScreen> {
                               footer: GridTileBar(
                                 backgroundColor: Colors.grey.withOpacity(0.9),
                                 title: Text(boardController.boardPosts[index].title ?? "",
-                                    style: TextStyle(fontFamily: 'AppleSdGothicNeo')),
+                                    style: TextStyle(fontFamily: 'NanumSquare')),
                               ),
                             ),
                           ),
                           onTap: () async {
-                            await boardDetailDialog(boardController.boardPosts[index]);
+                            String boardId = boardController.boardPosts[index].boardId ?? "";
+
+                            loadingController.show(true, "");
+                            Board? boardDetail = await boardController.getBoardDetail(boardId);
+
+                            if (boardDetail != null) {
+                              await boardDetailDialog(boardDetail);
+                            } else {
+                              Fluttertoast.showToast(
+                                  msg: "게시글 상세정보를 찾을 수 없습니다.",
+                                  backgroundColor: Colors.black,
+                                  webPosition: "center",
+                                  webBgColor: "#ea4335",
+                                  timeInSecForIosWeb: 3,
+                                  textColor: Colors.white);
+                            }
+                            loadingController.hide();
                           },
                         ),
                       );
