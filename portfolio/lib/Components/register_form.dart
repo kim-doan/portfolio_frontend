@@ -70,6 +70,7 @@ class _RegisterFormState extends State<RegisterForm> {
             decoration: BoxDecoration(
                 border: Border.all(width: 2, color: Colors.grey), borderRadius: BorderRadius.all(Radius.circular(5))),
             child: TextField(
+              style: TextStyle(fontFamily: "NanumGothic"),
               obscureText: obscureText,
               controller: pwController,
               decoration: InputDecoration(
@@ -108,6 +109,7 @@ class _RegisterFormState extends State<RegisterForm> {
             decoration: BoxDecoration(
                 border: Border.all(width: 2, color: Colors.grey), borderRadius: BorderRadius.all(Radius.circular(5))),
             child: TextField(
+              style: TextStyle(fontFamily: "NanumGothic"),
               obscureText: obscureText,
               controller: pwCheckController,
               decoration: InputDecoration(

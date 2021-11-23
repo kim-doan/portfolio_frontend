@@ -53,6 +53,7 @@ class _LoginFormState extends State<LoginForm> {
             decoration: BoxDecoration(
                 border: Border.all(width: 2, color: Colors.grey), borderRadius: BorderRadius.all(Radius.circular(5))),
             child: TextField(
+              style: TextStyle(fontFamily: "NanumGothic"),
               obscureText: obscureText,
               controller: pwController,
               decoration: InputDecoration(

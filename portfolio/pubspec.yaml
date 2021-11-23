@@ -98,6 +98,9 @@ flutter:
           weight: 300
         - asset: assets/fonts/NanumSquareR.ttf
           weight: 400
+    - family: NanumGothic
+      fonts:
+        - asset: assets/fonts/NanumGothic.ttf
 
   # fonts:
   #   - family: Schyler
