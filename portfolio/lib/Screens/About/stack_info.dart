@@ -7,11 +7,17 @@ class StackInfo extends StatefulWidget {
   _StackInfoState createState() => _StackInfoState();
 }
 
+final isSelected = <bool>[false, false, false];
+
 class _StackInfoState extends State<StackInfo> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+
     return Container(
-      child: Text("testest"),
+      width: size.width,
+      color: Colors.red,
+      child: Text("dd"),
     );
   }
 }

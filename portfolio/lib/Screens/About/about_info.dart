@@ -35,8 +35,9 @@ class _AboutInfoState extends State<AboutInfo> {
     Size size = MediaQuery.of(context).size;
 
     return Container(
+      alignment: Alignment.center,
       width: size.width,
-      height: size.height,
+      // height: size.height,
       child: Padding(
         padding: size.width > 710
             ? const EdgeInsets.only(top: 30, bottom: 30, left: 50, right: 50)
@@ -65,7 +66,7 @@ class _AboutInfoState extends State<AboutInfo> {
                   SizedBox(height: 20),
                   buildDynamicRow("주요프로젝트", aboutController.about.value.projectList),
                   SizedBox(height: 20),
-                  buildStackRow("주요스킬", aboutController.about.value.stackList),
+                  // buildStackRow("주요스킬", aboutController.about.value.stackList),
                 ],
               );
             }),
