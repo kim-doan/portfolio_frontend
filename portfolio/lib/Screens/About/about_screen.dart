@@ -83,7 +83,7 @@ class _AboutScreenState extends State<AboutScreen> {
                   Padding(
                     padding: size.width > 710
                         ? const EdgeInsets.only(top: 30, bottom: 30, left: 50, right: 50)
-                        : const EdgeInsets.all(1),
+                        : const EdgeInsets.only(top: 30, bottom: 30),
                     child: ToggleButtons(
                       color: Colors.white.withOpacity(0.4),
                       selectedColor: Colors.white,

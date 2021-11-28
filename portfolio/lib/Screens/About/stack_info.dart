@@ -63,115 +63,64 @@ class _StackInfoState extends State<StackInfo> {
 
     var stackCtgMap = stackMap.groupBy((m) => m["stackCtg"]);
 
-    return Row(
+    return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: stackCtgMap.keys
-            .map((k) => Row(
+            .map((k) => Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Row(
                       children: [
                         Container(
                           width: size.width > 715 ? 110 : 80,
+                          height: 30,
                           padding: EdgeInsets.only(bottom: 8, left: 2),
-                          decoration:
-                              BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Colors.grey.shade500))),
+                          // decoration:
+                          //     BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Colors.grey.shade500))),
                           child: Text(
                             k.toString(),
                             style: TextStyle(fontSize: size.width > 1000 ? 19 : 14, color: Color(0xFF2278bd)),
                           ),
                         ),
-                        SizedBox(width: 40),
                       ],
                     ),
                     Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: stackCtgMap[k]!
-                          .map((e) => Row(
-                                children: [
-                                  Container(
-                                    width: 30,
-                                    height: 30,
-                                    child: (e['icon'] == null || e['icon'].toString() == "")
-                                        ? new Container()
-                                        : Image.memory(Base64Decoder().convert(e['icon'].toString())),
-                                  ),
-                                  Text(
-                                    e['stackName'].toString(),
-                                    style: TextStyle(fontSize: size.width > 1000 ? 19 : 14, color: Colors.white),
-                                  ),
-                                  SizedBox(width: 30),
-                                  Container(
-                                    width: 100,
-                                    height: 15,
-                                    child: FAProgressBar(
-                                      currentValue: int.tryParse(e['stackGuage'].toString()) ?? 0,
-                                      backgroundColor: Color(0XFF2278bd).withOpacity(0.4),
-                                      progressColor: Color(0XFF2278bd),
-                                      animatedDuration: Duration(milliseconds: 2000),
+                          .map((e) => SizedBox(
+                                height: 40,
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 30,
+                                      height: 30,
+                                      child: (e['icon'] == null || e['icon'].toString() == "")
+                                          ? new Container()
+                                          : Image.memory(Base64Decoder().convert(e['icon'].toString())),
                                     ),
-                                  ),
-                                ],
+                                    Text(
+                                      e['stackName'].toString(),
+                                      style: TextStyle(fontSize: size.width > 1000 ? 19 : 14, color: Colors.white),
+                                    ),
+                                    SizedBox(width: 30),
+                                    Container(
+                                      width: 100,
+                                      height: 15,
+                                      child: FAProgressBar(
+                                        currentValue: int.tryParse(e['stackGuage'].toString()) ?? 0,
+                                        backgroundColor: Color(0XFF2278bd).withOpacity(0.4),
+                                        progressColor: Color(0XFF2278bd),
+                                        animatedDuration: Duration(milliseconds: 2000),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ))
                           .toList(),
-                    )
+                    ),
+                    SizedBox(height: 30),
                   ],
                 ))
             .toList());
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Container(
-        //   width: size.width > 715 ? 110 : 80,
-        //   padding: EdgeInsets.only(bottom: 8, left: 2),
-        //   decoration: BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Colors.grey.shade500))),
-        //   child: Text(
-        //     title,
-        //     style: TextStyle(fontSize: size.width > 1000 ? 19 : 14, color: Color(0xFF2278bd)),
-        //   ),
-        // ),
-        // SizedBox(width: 40),
-        Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: stackList
-                .map((stack) => Row(
-                      children: [
-                        Container(
-                          width: size.width > 715 ? 110 : 80,
-                          padding: EdgeInsets.only(bottom: 8, left: 2),
-                          decoration:
-                              BoxDecoration(border: Border(bottom: BorderSide(width: 1, color: Colors.grey.shade500))),
-                          child: Text(
-                            title,
-                            style: TextStyle(fontSize: size.width > 1000 ? 19 : 14, color: Color(0xFF2278bd)),
-                          ),
-                        ),
-                        SizedBox(width: 40),
-                        Container(
-                          width: 30,
-                          height: 30,
-                          child: (stack.icon == null || stack.icon == "")
-                              ? new Container()
-                              : Image.memory(Base64Decoder().convert(stack.icon!)),
-                        ),
-                        Text(
-                          stack.stackName,
-                          style: TextStyle(fontSize: size.width > 1000 ? 19 : 14, color: Colors.white),
-                        ),
-                        SizedBox(width: 30),
-                        Container(
-                          width: 100,
-                          height: 15,
-                          child: FAProgressBar(
-                            currentValue: stack.stackGuage,
-                            backgroundColor: Color(0XFF2278bd).withOpacity(0.4),
-                            progressColor: Color(0XFF2278bd),
-                            animatedDuration: Duration(milliseconds: 2000),
-                          ),
-                        ),
-                      ],
-                    ))
-                .toList()),
-      ],
-    );
   }
 }

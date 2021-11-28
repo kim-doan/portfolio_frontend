@@ -60,6 +60,7 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
     //     ),
     //     content: new Container()),
   ];
+  bool lock = false;
 
   @override
   void initState() {
@@ -82,15 +83,17 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
         temp = itemPositionsListener!.itemPositions.value.first.itemTrailingEdge;
       }
 
-      if (scrollDirection == "Top") {
-        if (itemPositionsListener!.itemPositions.value.length > 1) {
-          int visibleIndex = itemPositionsListener!.itemPositions.value.first.index;
-          itemScrollController!.scrollTo(index: visibleIndex, duration: Duration(milliseconds: 150));
-        }
-      } else if (scrollDirection == "Bottom") {
-        if (itemPositionsListener!.itemPositions.value.length > 1) {
-          int visibleIndex = itemPositionsListener!.itemPositions.value.last.index;
-          itemScrollController!.scrollTo(index: visibleIndex, duration: Duration(milliseconds: 150));
+      if (!lock) {
+        if (scrollDirection == "Top") {
+          if (itemPositionsListener!.itemPositions.value.length > 1) {
+            int visibleIndex = itemPositionsListener!.itemPositions.value.first.index;
+            itemScrollController!.scrollTo(index: visibleIndex, duration: Duration(milliseconds: 150));
+          }
+        } else if (scrollDirection == "Bottom") {
+          if (itemPositionsListener!.itemPositions.value.length > 1) {
+            int visibleIndex = itemPositionsListener!.itemPositions.value.last.index;
+            itemScrollController!.scrollTo(index: visibleIndex, duration: Duration(milliseconds: 150));
+          }
         }
       }
     });
@@ -301,9 +304,15 @@ class _MainScreenState extends State<MainScreen> with SingleTickerProviderStateM
                             e.tab.title,
                             style: Theme.of(context).textTheme.button,
                           ),
-                          onTap: () {
-                            itemScrollController!
+                          onTap: () async {
+                            setState(() {
+                              lock = true;
+                            });
+                            await itemScrollController!
                                 .scrollTo(index: contentViews.indexOf(e), duration: Duration(milliseconds: 300));
+                            setState(() {
+                              lock = false;
+                            });
                             Navigator.pop(context);
                           },
                         ),
