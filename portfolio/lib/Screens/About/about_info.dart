@@ -22,12 +22,6 @@ class _AboutInfoState extends State<AboutInfo> {
   @override
   void initState() {
     super.initState();
-
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
-      loadingController.show(true, "");
-      await aboutController.getAboutInfo();
-      loadingController.hide();
-    });
   }
 
   @override

@@ -5,6 +5,7 @@ import 'package:portfolio/Controller/loading_controller.dart';
 import 'package:portfolio/Screens/About/about_info.dart';
 import 'package:portfolio/Screens/About/stack_info.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AboutScreen extends StatefulWidget {
   const AboutScreen({Key? key}) : super(key: key);
@@ -26,6 +27,12 @@ class _AboutScreenState extends State<AboutScreen> {
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      loadingController.show(true, "");
+      await aboutController.getAboutInfo();
+      loadingController.hide();
+    });
   }
 
   @override
@@ -107,20 +114,26 @@ class _AboutScreenState extends State<AboutScreen> {
                           width: (size.width > 1250) ? size.width * 0.1 : size.width * 0.25,
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16),
-                            child: Text('경력사항'),
+                            child: Text(
+                              '경력사항',
+                              style: TextStyle(fontSize: (size.width > 1250) ? 20.sp : 14),
+                            ),
                           ),
                         ),
                         SizedBox(
                           width: (size.width > 1250) ? size.width * 0.1 : size.width * 0.25,
                           child: Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16),
-                            child: Text('주요기술'),
+                            child: Text(
+                              '주요기술',
+                              style: TextStyle(fontSize: (size.width > 1250) ? 20.sp : 14),
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 15),
+                  SizedBox(height: 30),
                   Expanded(
                     child: Container(
                       width: size.width,
