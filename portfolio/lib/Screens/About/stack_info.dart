@@ -98,6 +98,7 @@ class _StackInfoState extends State<StackInfo> {
                                           ? new Container()
                                           : Image.memory(Base64Decoder().convert(e['icon'].toString())),
                                     ),
+                                    SizedBox(width: 5),
                                     Text(
                                       e['stackName'].toString(),
                                       style: TextStyle(fontSize: size.width > 1000 ? 19 : 14, color: Colors.white),

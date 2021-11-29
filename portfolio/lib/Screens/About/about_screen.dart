@@ -75,15 +75,15 @@ class _AboutScreenState extends State<AboutScreen> {
           SingleChildScrollView(
             child: Container(
               width: size.width,
-              height: size.height,
+              height: size.height + 160,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
                     padding: size.width > 710
-                        ? const EdgeInsets.only(top: 30, bottom: 30, left: 50, right: 50)
-                        : const EdgeInsets.only(top: 30, bottom: 30),
+                        ? const EdgeInsets.only(top: 20, bottom: 20, left: 50, right: 50)
+                        : const EdgeInsets.only(top: 20, bottom: 20),
                     child: ToggleButtons(
                       color: Colors.white.withOpacity(0.4),
                       selectedColor: Colors.white,
@@ -133,7 +133,7 @@ class _AboutScreenState extends State<AboutScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 30),
+                  SizedBox(height: 10),
                   Expanded(
                     child: Container(
                       width: size.width,
